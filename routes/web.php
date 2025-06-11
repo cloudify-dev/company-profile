@@ -14,14 +14,14 @@ use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Frontend\TeamController as FrontendTeamController;
 
 // LANDING PAGE (INERTIA DEFAULT)
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Route::get('/', function () {
+//     return Inertia::render('Welcome', [
+//         'canLogin' => Route::has('login'),
+//         'canRegister' => Route::has('register'),
+//         'laravelVersion' => Application::VERSION,
+//         'phpVersion' => PHP_VERSION,
+//     ]);
+// });
 
 // INERTIA DASHBOARD
 Route::get('/dashboard', function () {
@@ -48,7 +48,15 @@ Route::get('/frontend/about', function () {
 
 // HALAMAN INDEX UTAMA (DINAMIS)
 
-Route::get('/index', function () {
+// Route::get('/index', function () {
+//     $slides = HeroSlide::all();
+//     $services = Service::take(6)->get();
+//     $teams = Team::latest()->take(8)->get();
+//     $projects = \App\Models\Project::latest()->take(9)->get(); // ambil max 9 project
+//     return view('frontend.pages.index', compact('slides', 'services', 'teams', 'projects'));
+// });
+
+Route::get('/', function () {
     $slides = HeroSlide::all();
     $services = Service::take(6)->get();
     $teams = Team::latest()->take(8)->get();

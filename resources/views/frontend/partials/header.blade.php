@@ -9,7 +9,7 @@
                 <div class="row align-items-center justify-content-between">
                     <div class="col-auto">
                         <div class="header-logo">
-                            <a class="icon-masking" href="{{ url('/index') }}">
+                            <a class="icon-masking" href="{{ url('/') }}">
                                 <span data-mask-src="{{ asset('assets_frontend/assets/img/logo.svg') }}"
                                     class="mask-icon"></span>
                                 <img src="{{ asset('assets_frontend/assets/img/logo.svg') }}" alt="Webteck">
