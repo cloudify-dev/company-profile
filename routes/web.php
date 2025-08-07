@@ -8,10 +8,13 @@ use Inertia\Inertia;
 use App\Models\Service;
 use App\Models\HeroSlide;
 use App\Models\Team;
+use App\Models\Testimonial;
 use App\Models\PageSetting;
 use App\Http\Controllers\Frontend\ProjectController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Frontend\TeamController as FrontendTeamController;
+use App\Http\Controllers\Frontend\ServiceController;
+use App\Models\AboutUsPage;
 
 // LANDING PAGE (INERTIA DEFAULT)
 // Route::get('/', function () {
@@ -42,9 +45,10 @@ Route::get('/frontend', function () {
     return view('frontend.index');
 });
 
-Route::get('/frontend/about', function () {
-    return view('frontend.about');
-});
+// Route::get('/frontend/about', function () {
+//     $teams = Team::latest()->take(8)->get();
+//     return view('frontend.pages.about', compact('teams'));
+// });
 
 // HALAMAN INDEX UTAMA (DINAMIS)
 
@@ -64,23 +68,36 @@ Route::get('/', function () {
     return view('frontend.pages.index', compact('slides', 'services', 'teams', 'projects'));
 });
 
+// ABOUT (FRONTEND)
+Route::get('/about', function () {
+    $teams = Team::where('is_active', true)->ordered()->get();
+    $testimonials = \App\Models\Testimonial::where('is_active', true)->ordered()->get();
+    $about = AboutUsPage::with(['features' => function($query) {
+        $query->where('is_active', true)->ordered();
+    }, 'achievements' => function($query) {
+        $query->where('is_active', true)->ordered();
+    }])->where('is_activated', true)->first();
+    
+    // Fallback if no active about page exists
+    if (!$about) {
+        $about = AboutUsPage::with(['features' => function($query) {
+            $query->where('is_active', true)->ordered();
+        }, 'achievements' => function($query) {
+            $query->where('is_active', true)->ordered();
+        }])->first();
+    }
+    
+    return view('frontend.pages.about', compact('teams', 'testimonials', 'about'));
+})->name('about');
 
 // PROJECT (FRONTEND)
 Route::get('/project', [ProjectController::class, 'index'])->name('project.index');
 Route::get('/project/{id}', [ProjectController::class, 'details'])->name('project.details');
 
 // SERVICE (FRONTEND)
-Route::get('/service', function () {
-    $services = Service::all();
-    $pageSettings = PageSetting::where('page_name', 'service')->first();
-    return view('frontend.pages.service', compact('services', 'pageSettings'));
-})->name('services.list');
+Route::get('/service', [ServiceController::class, 'index'])->name('services.list');
 
-Route::get('/service-details/{id}', function ($id) {
-    $service = Service::with(['features', 'benefits', 'faqs'])->findOrFail($id);
-    $pageSettings = PageSetting::where('page_name', 'service')->first();
-    return view('frontend.pages.service-details', compact('service', 'pageSettings'));
-})->name('service.details');
+Route::get('/service-details/{id}', [ServiceController::class, 'show'])->name('service.details');
 
 // TEAM (FRONTEND)
 Route::get('/team', [FrontendTeamController::class, 'index'])->name('frontend.team.index');
@@ -106,7 +123,33 @@ Route::get('/login', function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('hero', \App\Http\Controllers\Admin\HeroSlideController::class);
     Route::resource('service', \App\Http\Controllers\Admin\ServiceController::class);
+    Route::controller(\App\Http\Controllers\Admin\ServiceController::class)->group(function () {
+        Route::get('service-page-settings', 'pageSettings')->name('service.page-settings');
+        Route::put('service-page-settings', 'updatePageSettings')->name('service.page-settings.update');
+    });
     Route::resource('project', \App\Http\Controllers\Admin\ProjectController::class);
     Route::resource('team', \App\Http\Controllers\Admin\TeamController::class);
+    Route::resource('testimonial', \App\Http\Controllers\Admin\TestimonialController::class);
     Route::resource('breadcrumb', \App\Http\Controllers\Admin\BreadcrumbController::class);
+    Route::resource('about', \App\Http\Controllers\Admin\AboutController::class);
+    Route::controller(\App\Http\Controllers\Admin\AboutController::class)->group(function () {
+        Route::patch('about/{about}/toggle', 'toggle')->name('about.toggle');
+        // About Features Routes
+        Route::get('about/{about}/features', 'features')->name('about.features');
+        Route::get('about/{about}/features/create', 'createFeature')->name('about.features.create');
+        Route::post('about/{about}/features', 'storeFeature')->name('about.features.store');
+        Route::get('about/{about}/features/{feature}/edit', 'editFeature')->name('about.features.edit');
+        Route::put('about/{about}/features/{feature}', 'updateFeature')->name('about.features.update');
+        Route::delete('about/{about}/features/{feature}', 'destroyFeature')->name('about.features.destroy');
+        Route::patch('about/{about}/features/{feature}/toggle', 'toggleFeature')->name('about.features.toggle');
+        
+        // About Achievements Routes
+        Route::get('about/{about}/achievements', 'achievements')->name('about.achievements');
+        Route::get('about/{about}/achievements/create', 'createAchievement')->name('about.achievements.create');
+        Route::post('about/{about}/achievements', 'storeAchievement')->name('about.achievements.store');
+        Route::get('about/{about}/achievements/{achievement}/edit', 'editAchievement')->name('about.achievements.edit');
+        Route::put('about/{about}/achievements/{achievement}', 'updateAchievement')->name('about.achievements.update');
+        Route::delete('about/{about}/achievements/{achievement}', 'destroyAchievement')->name('about.achievements.destroy');
+        Route::patch('about/{about}/achievements/{achievement}/toggle', 'toggleAchievement')->name('about.achievements.toggle');
+    });
 });

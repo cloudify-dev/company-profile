@@ -30,7 +30,16 @@ class TeamController extends Controller
             'email' => 'nullable|email',
             'availability' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
+            'facebook' => 'nullable|url',
+            'twitter' => 'nullable|url',
+            'instagram' => 'nullable|url',
+            'linkedin' => 'nullable|url',
+            'is_active' => 'boolean',
+            'sort_order' => 'nullable|integer'
         ]);
+
+        $data['is_active'] = $request->has('is_active') && $request->is_active == '1';
+        $data['sort_order'] = $data['sort_order'] ?? 0;
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('team_images', 'public');
@@ -56,7 +65,16 @@ class TeamController extends Controller
             'email' => 'nullable|email',
             'availability' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
+            'facebook' => 'nullable|url',
+            'twitter' => 'nullable|url',
+            'instagram' => 'nullable|url',
+            'linkedin' => 'nullable|url',
+            'is_active' => 'boolean',
+            'sort_order' => 'nullable|integer'
         ]);
+
+        $data['is_active'] = $request->has('is_active') && $request->is_active == '1';
+        $data['sort_order'] = $data['sort_order'] ?? 0;
 
         if ($request->hasFile('image')) {
             if ($team->image) {

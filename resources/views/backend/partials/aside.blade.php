@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" href="{{ url('pages/dashboard') }}">
+                <a class="nav-link active" href="{{ url('dashboard') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
@@ -47,6 +47,24 @@
                         <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Team</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('admin/testimonial') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-chat-round text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Testimonial</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('admin/about') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">About Us Page</span>
                 </a>
             </li>
             <li class="nav-item">

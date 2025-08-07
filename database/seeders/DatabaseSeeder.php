@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->call(HeroSlideSeeder::class);
         $this->call(ServiceSeeder::class);
+        $this->call(ServicePageSeeder::class);
     }
 }

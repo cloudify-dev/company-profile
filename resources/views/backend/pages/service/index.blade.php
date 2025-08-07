@@ -3,7 +3,10 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h6 class="mb-0">Service List</h6>
-            <a href="{{ route('admin.service.create') }}" class="btn btn-primary btn-sm">Add Service</a>
+            <div>
+                <a href="{{ route('admin.service.page-settings') }}" class="btn btn-warning btn-sm me-2">Page Settings</a>
+                <a href="{{ route('admin.service.create') }}" class="btn btn-primary btn-sm">Add Service</a>
+            </div>
         </div>
         <div class="card-body p-0">
             <table class="table table-hover mb-0">

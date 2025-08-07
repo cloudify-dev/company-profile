@@ -54,3 +54,62 @@
         <img src="{{ asset('storage/' . $team->image) }}" width="100" class="mt-2">
     @endif
 </div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Facebook URL</label>
+            <input type="url" name="facebook" class="form-control" 
+                   value="{{ old('facebook', $team->facebook ?? '') }}" 
+                   placeholder="https://facebook.com/username">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Twitter URL</label>
+            <input type="url" name="twitter" class="form-control" 
+                   value="{{ old('twitter', $team->twitter ?? '') }}" 
+                   placeholder="https://twitter.com/username">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Instagram URL</label>
+            <input type="url" name="instagram" class="form-control" 
+                   value="{{ old('instagram', $team->instagram ?? '') }}" 
+                   placeholder="https://instagram.com/username">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>LinkedIn URL</label>
+            <input type="url" name="linkedin" class="form-control" 
+                   value="{{ old('linkedin', $team->linkedin ?? '') }}" 
+                   placeholder="https://linkedin.com/in/username">
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" name="sort_order" class="form-control" 
+                   value="{{ old('sort_order', $team->sort_order ?? 0) }}">
+            <small class="text-muted">Lower numbers appear first</small>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <div class="form-check form-switch mt-4">
+                <input type="hidden" name="is_active" value="0">
+                <input class="form-check-input" type="checkbox" name="is_active" value="1"
+                       {{ old('is_active', $team->is_active ?? true) ? 'checked' : '' }}>
+                <label class="form-check-label">Active Status</label>
+            </div>
+        </div>
+    </div>
+</div>
