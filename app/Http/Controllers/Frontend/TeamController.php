@@ -12,7 +12,7 @@ class TeamController extends Controller
 {
     public function index()
     {
-        $teams = Team::latest()->get();
+        $teams = Team::latest()->where('is_active', true)->orderBy('sort_order')->get();
         $pageSettings = PageSetting::where('page_name', 'team')->first();
         return view('frontend.pages.team', compact('teams', 'pageSettings'));
     }

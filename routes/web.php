@@ -75,7 +75,7 @@ Route::get('/service', [ServiceController::class, 'index'])->name('service');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 // PROJECT (FRONTEND)
-Route::get('/project', [ProjectController::class, 'index'])->name('project.index');
+Route::get('/project', [ProjectController::class, 'index'])->name('project');
 Route::get('/project/{id}', [ProjectController::class, 'details'])->name('project.details');
 
 // SERVICE (FRONTEND)
@@ -84,11 +84,8 @@ Route::get('/service', [ServiceController::class, 'index'])->name('services.list
 Route::get('/service-details/{id}', [ServiceController::class, 'show'])->name('service.details');
 
 // TEAM (FRONTEND)
-Route::get('/team', [FrontendTeamController::class, 'index'])->name('frontend.team.index');
-Route::get('/team-details', function () {
-    return view('frontend.pages.team-details');
-});
-Route::get('/team-details/{id}', [FrontendTeamController::class, 'show'])->name('frontend.team.details');
+Route::get('/team', [FrontendTeamController::class, 'index'])->name('frontend.team');
+Route::get('/team/{id}', [FrontendTeamController::class, 'show'])->name('frontend.team.details');
 
 // BACKEND DASHBOARD
 Route::get('/dashboard', function () {

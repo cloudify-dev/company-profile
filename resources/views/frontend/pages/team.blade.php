@@ -74,7 +74,7 @@
 
      <section class="space">
          <div class="container">
-             <div class="title-area text-center">
+             <div class="title-area text-center mb-5">
                  <span class="sub-title">
                      <div class="icon-masking me-2">
                          <span class="mask-icon"
@@ -86,18 +86,69 @@
                  <h2 class="sec-title">See Our Skilled Expert <span class="text-theme">Team</span></h2>
              </div>
 
-             <div class="row gy-40">
+             <div class="row g-4">
                  @foreach ($teams as $team)
-                     <div class="col-lg-3 col-md-6">
-                         <div class="th-team team-card">
-                             <div class="team-img">
-                                 <img src="{{ asset('storage/' . $team->image) }}" alt="{{ $team->name }}">
+                     <div class="col-xl-3 col-lg-4 col-md-6">
+                         <div class="card border-0 shadow-sm h-100 team-card-modern">
+                             <div class="position-relative overflow-hidden">
+                                 @if($team->image)
+                                     <img src="{{ asset('storage/' . $team->image) }}" 
+                                          class="card-img-top team-img" 
+                                          alt="{{ $team->name }}"
+                                          style="height: 280px; object-fit: cover;">
+                                 @else
+                                     <div class="card-img-top d-flex align-items-center justify-content-center team-img-placeholder"
+                                          style="height: 280px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+                                         <div class="text-center">
+                                             <div class="bg-white rounded-circle d-flex align-items-center justify-content-center mb-3 mx-auto" 
+                                                  style="width: 80px; height: 80px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                                                 <i class="fas fa-user fa-2x text-muted"></i>
+                                             </div>
+                                             <h6 class="mb-0 text-dark fw-bold">{{ $team->name }}</h6>
+                                         </div>
+                                     </div>
+                                 @endif
+                                 
+                                 <!-- Hover Overlay -->
+                                 <div class="team-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center">
+                                     <a href="{{ route('frontend.team.details', $team->id) }}" 
+                                        class="btn btn-light btn-lg rounded-circle shadow-lg">
+                                         <i class="fas fa-arrow-right"></i>
+                                     </a>
+                                 </div>
                              </div>
-                             <div class="team-content">
-                                 <h3 class="box-title">
-                                     <a href="{{ route('frontend.team.details', $team->id) }}">{{ $team->name }}</a>
-                                 </h3>
-                                 <span class="team-desig">{{ $team->position }}</span>
+                             
+                             <div class="card-body text-center p-4">
+                                 <h5 class="card-title mb-2">
+                                     <a href="{{ route('frontend.team.details', $team->id) }}" 
+                                        class="text-decoration-none text-dark fw-bold team-name-link">
+                                         {{ $team->name }}
+                                     </a>
+                                 </h5>
+                                 <p class="text-muted mb-2 fw-medium">{{ $team->position }}</p>
+                                 @if($team->company)
+                                     <p class="text-secondary small mb-3">{{ $team->company }}</p>
+                                 @endif
+                                 
+                                 <!-- Contact Info -->
+                                 @if($team->email || $team->phone)
+                                     <div class="d-flex justify-content-center gap-3 mt-3">
+                                         @if($team->email)
+                                             <a href="mailto:{{ $team->email }}" 
+                                                class="text-muted hover-theme" 
+                                                title="Email {{ $team->name }}">
+                                                 <i class="fas fa-envelope"></i>
+                                             </a>
+                                         @endif
+                                         @if($team->phone)
+                                             <a href="tel:{{ $team->phone }}" 
+                                                class="text-muted hover-theme" 
+                                                title="Call {{ $team->name }}">
+                                                 <i class="fas fa-phone"></i>
+                                             </a>
+                                         @endif
+                                     </div>
+                                 @endif
                              </div>
                          </div>
                      </div>
@@ -105,4 +156,62 @@
              </div>
          </div>
      </section>
+
+     <style>
+     .team-card-modern {
+         transition: all 0.3s ease;
+         border-radius: 15px !important;
+         overflow: hidden;
+     }
+     
+     .team-card-modern:hover {
+         transform: translateY(-10px);
+         box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+     }
+     
+     .team-card-modern .team-img {
+         transition: transform 0.3s ease;
+         border-radius: 15px 15px 0 0;
+     }
+     
+     .team-card-modern:hover .team-img {
+         transform: scale(1.05);
+     }
+     
+     .team-overlay {
+         background: rgba(0,0,0,0.6);
+         opacity: 0;
+         transition: opacity 0.3s ease;
+     }
+     
+     .team-card-modern:hover .team-overlay {
+         opacity: 1;
+     }
+     
+     .team-name-link {
+         transition: color 0.3s ease;
+     }
+     
+     .team-name-link:hover {
+         color: var(--theme-color) !important;
+     }
+     
+     .hover-theme {
+         transition: color 0.3s ease;
+     }
+     
+     .hover-theme:hover {
+         color: var(--theme-color) !important;
+     }
+     
+     .team-img-placeholder {
+         border-radius: 15px 15px 0 0;
+     }
+     
+     @media (max-width: 768px) {
+         .team-card-modern .card-body {
+             padding: 1.5rem !important;
+         }
+     }
+     </style>
  @endsection

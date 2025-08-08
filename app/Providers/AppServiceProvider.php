@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,5 +26,9 @@ class AppServiceProvider extends ServiceProvider
         
         // Register view composers
         View::composer('frontend.partials.footer', \App\Http\ViewComposers\FooterComposer::class);
+        
+        // Use custom pagination view
+        Paginator::defaultView('custom.pagination');
+        Paginator::defaultSimpleView('custom.pagination');
     }
 }

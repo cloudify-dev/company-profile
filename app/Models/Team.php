@@ -19,18 +19,29 @@ class Team extends Model
         'phone',
         'email',
         'availability',
+        'experience',
         'image',
         'facebook',
         'twitter',
         'instagram',
         'linkedin',
+        'personal_biography',
+        'professional_skills_description',
+        'skills',
+        'activities_description',
+        'activities_list',
+        'educational_qualification',
+        'experience_timeline',
         'is_active',
         'sort_order'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'sort_order' => 'integer'
+        'sort_order' => 'integer',
+        'skills' => 'array',
+        'activities_list' => 'array',
+        'experience_timeline' => 'array'
     ];
 
     /**
