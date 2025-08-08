@@ -2,11 +2,11 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
-            <h6 class="mb-0">Add New Achievement - {{ $about->title_black }} {{ $about->title_blue }}</h6>
-            <a href="{{ route('admin.about.achievements', $about->id) }}" class="btn btn-secondary btn-sm">Back to Achievements</a>
+            <h6 class="mb-0">Add New Achievement</h6>
+            <a href="{{ route('admin.achievements.index') }}" class="btn btn-secondary btn-sm">Back to Achievements</a>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.about.achievements.store', $about->id) }}" method="POST">
+            <form action="{{ route('admin.achievements.store') }}" method="POST">
                 @csrf
                 
                 <div class="row">
@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('admin.about.achievements', $about->id) }}" class="btn btn-secondary">Cancel</a>
+                    <a href="{{ route('admin.achievements.index') }}" class="btn btn-secondary">Cancel</a>
                     <button type="submit" class="btn btn-primary">Create Achievement</button>
                 </div>
             </form>

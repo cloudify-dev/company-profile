@@ -117,12 +117,16 @@ class AboutController extends Controller
     public function storeFeature(Request $request, AboutUsPage $about)
     {
         $data = $request->validate([
-            'icon_path' => 'required|string|max:255',
+            'image' => 'nullable|image|max:2048',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean'
         ]);
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')->store('feature_images', 'public');
+        }
 
         // Set default sort order if not provided
         if (!isset($data['sort_order'])) {
@@ -165,12 +169,19 @@ class AboutController extends Controller
         }
 
         $data = $request->validate([
-            'icon_path' => 'required|string|max:255',
+            'image' => 'nullable|image|max:2048',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'sort_order' => 'nullable|integer|min:0',
             'is_active' => 'boolean'
         ]);
+
+        if ($request->hasFile('image')) {
+            if ($feature->image) {
+                Storage::disk('public')->delete($feature->image);
+            }
+            $data['image'] = $request->file('image')->store('feature_images', 'public');
+        }
 
         $data['is_active'] = $request->has('is_active');
 
@@ -194,6 +205,10 @@ class AboutController extends Controller
         }
 
         $feature->delete();
+
+        if ($feature->image) {
+            Storage::disk('public')->delete($feature->image);
+        }
 
         return redirect()->route('admin.about.features', $about->id)->with('swal', [
             'title' => 'Deleted!',
@@ -222,121 +237,4 @@ class AboutController extends Controller
         ]);
     }
 
-    public function achievements(AboutUsPage $about)
-    {
-        $achievements = $about->achievements()->ordered()->get();
-        return view('backend.pages.about.achievements.index', compact('about', 'achievements'));
-    }
-
-    public function createAchievement(AboutUsPage $about)
-    {
-        return view('backend.pages.about.achievements.create', compact('about'));
-    }
-
-    public function storeAchievement(Request $request, AboutUsPage $about)
-    {
-        $data = $request->validate([
-            'achievement_value' => 'required|string|max:125',
-            'achievement_unit' => 'required|string|max:125',
-            'achievement_description' => 'required|string|max:125',
-            'sort_order' => 'nullable|integer|min:0',
-            'is_active' => 'boolean'
-        ]);
-
-        if (!isset($data['sort_order'])) {
-            $data['sort_order'] = $about->achievements()->max('sort_order') + 1;
-        }
-
-        $data['about_id'] = $about->id;
-        $data['is_active'] = $request->has('is_active');
-
-        $about->achievements()->create($data);
-
-        return redirect()->route('admin.about.achievements', $about->id)->with('swal', [
-            'title' => 'Success!',
-            'text' => 'Achievement created successfully!',
-            'icon' => 'success'
-        ]);
-    }
-
-    /**
-     * Show form to edit an achievement
-     */
-    public function editAchievement(AboutUsPage $about, AboutAchievement $achievement)
-    {
-        // Ensure achievement belongs to this about page
-        if ($achievement->about_id !== $about->id) {
-            abort(404);
-        }
-
-        return view('backend.pages.about.achievements.edit', compact('about', 'achievement'));
-    }
-
-    /**
-     * Update an achievement
-     */
-    public function updateAchievement(Request $request, AboutUsPage $about, AboutAchievement $achievement)
-    {
-        // Ensure achievement belongs to this about page
-        if ($achievement->about_id !== $about->id) {
-            abort(404);
-        }
-
-        $data = $request->validate([
-            'achievement_value' => 'required|string|max:125',
-            'achievement_unit' => 'required|string|max:125',
-            'achievement_description' => 'required|string|max:125',
-            'sort_order' => 'nullable|integer|min:0',
-            'is_active' => 'boolean'
-        ]);
-
-        $data['is_active'] = $request->has('is_active');
-
-        $achievement->update($data);
-
-        return redirect()->route('admin.about.achievements', $about->id)->with('swal', [
-            'title' => 'Success!',
-            'text' => 'Achievement updated successfully!',
-            'icon' => 'success'
-        ]);
-    }
-
-    /**
-     * Delete an achievement
-     */
-    public function destroyAchievement(AboutUsPage $about, AboutAchievement $achievement)
-    {
-        // Ensure achievement belongs to this about page
-        if ($achievement->about_id !== $about->id) {
-            abort(404);
-        }
-
-        $achievement->delete();
-
-        return redirect()->route('admin.about.achievements', $about->id)->with('swal', [
-            'title' => 'Deleted!',
-            'text' => 'Achievement deleted successfully!',
-            'icon' => 'success'
-        ]);
-    }
-
-    /**
-     * Toggle achievement active status
-     */
-    public function toggleAchievement(AboutUsPage $about, AboutAchievement $achievement)
-    {
-        // Ensure achievement belongs to this about page
-        if ($achievement->about_id !== $about->id) {
-            abort(404);
-        }
-
-        $achievement->is_active = !$achievement->is_active;
-        $achievement->save();
-
-        return back()->with('swal', [
-            'title' => 'Success!',
-            'text' => $achievement->is_active ? 'Achievement activated successfully!' : 'Achievement deactivated successfully!',
-            'icon' => 'success'
-        ]);
-    }
 }

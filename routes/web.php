@@ -67,7 +67,8 @@ Route::get('/', function () {
     $about = AboutUsPage::where('is_active', true)->first();
     $teams = Team::latest()->take(8)->get();
     $projects = \App\Models\Project::latest()->take(9)->get(); // ambil max 9 project
-    return view('frontend.pages.index', compact('slides', 'services', 'teams', 'projects', 'about'));
+    $achievements = \App\Models\Achievement::where('is_active', true)->ordered()->get(); // independent achievements
+    return view('frontend.pages.index', compact('slides', 'services', 'teams', 'projects', 'about', 'achievements'));
 });
 
 // ABOUT (FRONTEND)
@@ -127,14 +128,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('about/{about}/features/{feature}', 'updateFeature')->name('about.features.update');
         Route::delete('about/{about}/features/{feature}', 'destroyFeature')->name('about.features.destroy');
         Route::patch('about/{about}/features/{feature}/toggle', 'toggleFeature')->name('about.features.toggle');
-        
-        // About Achievements Routes
-        Route::get('about/{about}/achievements', 'achievements')->name('about.achievements');
-        Route::get('about/{about}/achievements/create', 'createAchievement')->name('about.achievements.create');
-        Route::post('about/{about}/achievements', 'storeAchievement')->name('about.achievements.store');
-        Route::get('about/{about}/achievements/{achievement}/edit', 'editAchievement')->name('about.achievements.edit');
-        Route::put('about/{about}/achievements/{achievement}', 'updateAchievement')->name('about.achievements.update');
-        Route::delete('about/{about}/achievements/{achievement}', 'destroyAchievement')->name('about.achievements.destroy');
-        Route::patch('about/{about}/achievements/{achievement}/toggle', 'toggleAchievement')->name('about.achievements.toggle');
+    });
+
+    // Independent Achievement routes
+    Route::resource('achievements', \App\Http\Controllers\Admin\AchievementController::class);
+    Route::controller(\App\Http\Controllers\Admin\AchievementController::class)->group(function () {
+        Route::patch('achievements/{achievement}/toggle', 'toggle')->name('achievements.toggle');
     });
 });

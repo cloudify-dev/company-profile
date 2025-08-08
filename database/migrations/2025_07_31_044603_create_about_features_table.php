@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('about_features', function (Blueprint $table) {
             $table->id();
             $table->foreignId('about_id')->constrained('about_us_page')->onDelete('cascade');
-            $table->string('icon_path');
+            $table->string('image')->nullable();
             $table->string('title');
             $table->text('description');
             $table->integer('sort_order')->default(0);
