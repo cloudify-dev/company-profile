@@ -14,6 +14,7 @@ use App\Http\Controllers\Frontend\ProjectController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Frontend\TeamController as FrontendTeamController;
 use App\Http\Controllers\Frontend\ServiceController;
+use App\Http\Controllers\Frontend\AboutController;
 use App\Models\AboutUsPage;
 
 // LANDING PAGE (INERTIA DEFAULT)
@@ -63,32 +64,15 @@ Route::get('/frontend', function () {
 Route::get('/', function () {
     $slides = HeroSlide::all();
     $services = Service::take(6)->get();
+    $about = AboutUsPage::where('is_active', true)->first();
     $teams = Team::latest()->take(8)->get();
     $projects = \App\Models\Project::latest()->take(9)->get(); // ambil max 9 project
-    return view('frontend.pages.index', compact('slides', 'services', 'teams', 'projects'));
+    return view('frontend.pages.index', compact('slides', 'services', 'teams', 'projects', 'about'));
 });
 
 // ABOUT (FRONTEND)
-Route::get('/about', function () {
-    $teams = Team::where('is_active', true)->ordered()->get();
-    $testimonials = \App\Models\Testimonial::where('is_active', true)->ordered()->get();
-    $about = AboutUsPage::with(['features' => function($query) {
-        $query->where('is_active', true)->ordered();
-    }, 'achievements' => function($query) {
-        $query->where('is_active', true)->ordered();
-    }])->where('is_activated', true)->first();
-    
-    // Fallback if no active about page exists
-    if (!$about) {
-        $about = AboutUsPage::with(['features' => function($query) {
-            $query->where('is_active', true)->ordered();
-        }, 'achievements' => function($query) {
-            $query->where('is_active', true)->ordered();
-        }])->first();
-    }
-    
-    return view('frontend.pages.about', compact('teams', 'testimonials', 'about'));
-})->name('about');
+Route::get('/service', [ServiceController::class, 'index'])->name('service');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 // PROJECT (FRONTEND)
 Route::get('/project', [ProjectController::class, 'index'])->name('project.index');
@@ -132,6 +116,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('testimonial', \App\Http\Controllers\Admin\TestimonialController::class);
     Route::resource('breadcrumb', \App\Http\Controllers\Admin\BreadcrumbController::class);
     Route::resource('about', \App\Http\Controllers\Admin\AboutController::class);
+    Route::resource('section-titles', \App\Http\Controllers\Admin\SectionTitleController::class);
+    Route::controller(\App\Http\Controllers\Admin\SectionTitleController::class)->group(function () {
+        Route::patch('section-titles/{sectionTitle}/toggle', 'toggle')->name('section-titles.toggle');
+    });
     Route::controller(\App\Http\Controllers\Admin\AboutController::class)->group(function () {
         Route::patch('about/{about}/toggle', 'toggle')->name('about.toggle');
         // About Features Routes

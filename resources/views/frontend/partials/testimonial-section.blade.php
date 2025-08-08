@@ -10,9 +10,18 @@ Testimonial Area
                         data-mask-src="{{ asset('assets_frontend/assets/img/theme-img/title_shape_2.svg') }}"></span>
                     <img src="{{ asset('assets_frontend/assets/img/theme-img/title_shape_2.svg') }}" alt="shape">
                 </div>
-                {{ $subtitle ?? 'CUSTOMER FEEDBACK' }}
+                @if(isset($testimonialTitle) && $testimonialTitle)
+                    {{ $testimonialTitle->subtitle }}
+                @else
+                    {{ $subtitle ?? 'CUSTOMER FEEDBACK' }}
+                @endif
             </span>
-            <h2 class="sec-title">{{ $titleBlack ?? 'What Happy Clients Says' }} <br> <span class="text-theme fw-normal">{{ $titleBlue ?? 'About Us?' }}</span>
+            <h2 class="sec-title">
+                @if(isset($testimonialTitle) && $testimonialTitle)
+                    {{ $testimonialTitle->title_black }} <br> <span class="text-theme fw-normal">{{ $testimonialTitle->title_blue }}</span>
+                @else
+                    {{ $titleBlack ?? 'What Happy Clients Says' }} <br> <span class="text-theme fw-normal">{{ $titleBlue ?? 'About Us?' }}</span>
+                @endif
             </h2>
         </div>
 

@@ -53,8 +53,7 @@
                         <h3 class="widget_title">About Company</h3>
                         <div class="th-widget-about">
                             <p class="about-text">
-                                Professionally redefine transparent ROI through low-risk high-yield imperatives.
-                                Progressively create empowered, cost effective users via team driven.
+                                {{ $about->title_description ?? 'Cloudify Indonesia is a leading IT service provider, dedicated to delivering innovative solutions that empower businesses to thrive in the digital age. Our team of experts is committed to excellence, ensuring that we meet the unique needs of each client with tailored services.' }}
                             </p>
                             <div class="th-social">
                                 <a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
@@ -87,11 +86,9 @@
                         <h3 class="widget_title">IT SERVICES</h3>
                         <div class="menu-all-pages-container">
                             <ul class="menu">
-                                <li><a href="{{ url('service-details') }}">Web Development</a></li>
-                                <li><a href="{{ url('service-details') }}">Business Development</a></li>
-                                <li><a href="{{ url('service-details') }}">Product Management</a></li>
-                                <li><a href="{{ url('service-details') }}">UI/UX Design</a></li>
-                                <li><a href="{{ url('service-details') }}">Cloud services</a></li>
+                                @foreach ($services as $service)
+                                    <li><a href="{{ url('service-details', $service->id) }}">{{ $service->title }}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>

@@ -105,9 +105,7 @@
     ==============================-->
     @include('frontend.partials.team-section', [
         'teams' => $teams,
-        'subtitle' => 'TEAM MEMBER', 
-        'titleBlack' => $about->team_section_title_black ?? 'See Our Skilled Expert',
-        'titleBlue' => $about->team_section_title_blue ?? 'Team',
+        'teamTitle' => $teamTitle,
         'sliderId' => 'teamSlider2'
     ])
 
@@ -185,9 +183,7 @@
     ==============================-->
     @include('frontend.partials.testimonial-section', [
         'testimonials' => $testimonials,
-        'subtitle' => 'CUSTOMER FEEDBACK', 
-        'titleBlack' => 'What Happy Clients Says',
-        'titleBlue' => 'About Us?',
+        'testimonialTitle' => $testimonialTitle,
         'sliderId' => 'testiSlider2',
         'bgImage' => asset('assets_frontend/assets/img/bg/testi_bg_2.png')
     ])

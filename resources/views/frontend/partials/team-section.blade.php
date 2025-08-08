@@ -9,9 +9,19 @@ Team Area
                     <span class="mask-icon" data-mask-src="{{ asset('assets_frontend/assets/img/theme-img/title_shape_1.svg') }}"></span>
                     <img src="{{ asset('assets_frontend/assets/img/theme-img/title_shape_1.svg') }}" alt="shape">
                 </div>
-                {{ $subtitle ?? 'TEAM MEMBER' }}
+                @if(isset($teamTitle) && $teamTitle)
+                    {{ $teamTitle->subtitle }}
+                @else
+                    {{ $subtitle ?? 'TEAM MEMBER' }}
+                @endif
             </span>
-            <h2 class="sec-title">{{ $titleBlack ?? 'See Our Skilled Expert' }} <span class="text-theme">{{ $titleBlue ?? 'Team' }}</span></h2>
+            <h2 class="sec-title">
+                @if(isset($teamTitle) && $teamTitle)
+                    {{ $teamTitle->title_black }} <span class="text-theme">{{ $teamTitle->title_blue }}</span>
+                @else
+                    {{ $titleBlack ?? 'See Our Skilled Expert' }} <span class="text-theme">{{ $titleBlue ?? 'Team' }}</span>
+                @endif
+            </h2>
         </div>
 
         <div class="slider-area">

@@ -19,15 +19,15 @@ class AboutController extends Controller
 
     public function toggle(AboutUsPage $about)
     {
-        $about->is_activated = !$about->is_activated;
+        $about->is_active = !$about->is_active;
         $about->save();
 
         // disable all other about us pages data
-        AboutUsPage::where('id', '!=', $about->id)->update(['is_activated' => false]);
+        AboutUsPage::where('id', '!=', $about->id)->update(['is_active' => false]);
 
         return back()->with('swal', [
             'title' => 'Success!',
-            'text' => $about->is_activated ? 'About Us page activated successfully!' : 'About Us page deactivated successfully!',
+            'text' => $about->is_active ? 'About Us page activated successfully!' : 'About Us page deactivated successfully!',
             'icon' => 'success'
         ]);
     }
@@ -45,10 +45,7 @@ class AboutController extends Controller
             'title_black' => 'required|string',
             'title_blue' => 'required|string',
             'title_description' => 'required|string',
-            'team_logo_name' => 'required|string',
-            'team_section_title_black' => 'required|string',
-            'team_section_title_blue' => 'required|string',
-            'phone_number' => 'required|string',
+            'phone_number' => 'nullable|string',
         ]);
 
         $about = AboutUsPage::create($data);
@@ -73,6 +70,7 @@ class AboutController extends Controller
             'title_black' => 'required|string',
             'title_blue' => 'required|string',
             'title_description' => 'required|string',
+            'phone_number' => 'nullable|string',
         ]);
 
         $about->update($data);

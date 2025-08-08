@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('title_black');
             $table->string('title_blue');
             $table->text('title_description');
+            $table->boolean('is_active')->default(false);
+            $table->string('phone_number')->nullable();
             $table->timestamps();
         });
     }

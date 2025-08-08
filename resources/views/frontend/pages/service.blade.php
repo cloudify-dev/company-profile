@@ -161,9 +161,7 @@
                                             ==============================-->
     @include('frontend.partials.testimonial-section', [
         'testimonials' => $testimonials,
-        'subtitle' => $servicePage->testimonial_subtitle ?? 'CUSTOMER FEEDBACK', 
-        'titleBlack' => $servicePage->testimonial_title_black ?? 'What Happy Clients Says',
-        'titleBlue' => $servicePage->testimonial_title_blue ?? 'About Us?',
+        'testimonialTitle' => $testimonialTitle,
         'sliderId' => 'testiSlider2',
         'bgImage' => asset('assets_frontend/assets/img/bg/testi_bg_2.png')
     ])

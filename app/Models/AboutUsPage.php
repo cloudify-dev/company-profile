@@ -13,19 +13,17 @@ class AboutUsPage extends Model
     protected $table = 'about_us_page';
 
     protected $fillable = [
-        'is_activated',
+        'is_active',
         'circle_title',
         'circle_subtitle',
         'title_black',
         'title_blue',
         'title_description',
-        'team_logo_name',
-        'team_section_title_black',
-        'team_section_title_blue',
+        'phone_number',
     ];
 
     protected $casts = [
-        'is_activated' => 'boolean'
+        'is_active' => 'boolean'
     ];
 
     public function features(): HasMany
