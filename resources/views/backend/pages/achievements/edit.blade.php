@@ -3,10 +3,10 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h6 class="mb-0">Edit Achievement - {{ $achievement->achievement_value }} {{ $achievement->achievement_unit }}</h6>
-            <a href="{{ route('admin.about.achievements', $about->id) }}" class="btn btn-secondary btn-sm">Back to Achievements</a>
+            <a href="{{ route('admin.achievements.index') }}" class="btn btn-secondary btn-sm">Back to Achievements</a>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.about.achievements.update', [$about->id, $achievement->id]) }}" method="POST">
+            <form action="{{ route('admin.achievements.update', $achievement->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 
@@ -81,32 +81,8 @@
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" 
-                               type="checkbox" 
-                               id="is_active" 
-                               name="is_active" 
-                               value="1"
-                               {{ old('is_active', $achievement->is_active) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_active">
-                            Active (Show on frontend)
-                        </label>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <form action="{{ route('admin.about.achievements.toggle', [$about->id, $achievement->id]) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('PATCH')
-                        <button type="submit" class="btn btn-sm {{ $achievement->is_active ? 'btn-warning' : 'btn-success' }}">
-                            {{ $achievement->is_active ? 'Deactivate' : 'Activate' }} Achievement
-                        </button>
-                    </form>
-                </div>
-
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('admin.about.achievements', $about->id) }}" class="btn btn-secondary">Cancel</a>
+                    <a href="{{ route('admin.achievements.index') }}" class="btn btn-secondary">Cancel</a>
                     <button type="submit" class="btn btn-primary">Update Achievement</button>
                 </div>
             </form>

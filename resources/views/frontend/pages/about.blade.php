@@ -52,8 +52,11 @@
                             @if(isset($about->features) && $about->features->where('is_active', true)->count() > 0)
                                 @foreach($about->features->where('is_active', true) as $feature)
                                     <div class="about-feature">
-                                        <div class="about-feature_icon">
+                                        <!-- <div class="about-feature_icon">
                                            <img src="{{ asset($feature->icon_path ?? 'assets_frontend/assets/img/icon/about_feature_1_1.svg') }}" style="width: 50px; height: 50px;" alt="Icon">
+                                        </div> -->
+                                        <div class="about-feature_icon">
+                                            <img src="{{ asset('storage/' . $feature->image) }}" alt="{{ $feature->title }}" style="width: 50px; height: 50px;">
                                         </div>
                                         <div class="media-body">
                                             <h3 class="about-feature_title">{{ $feature->title }}</h3>
@@ -90,7 +93,7 @@
                                 </div>
                                 <div class="media-body">
                                     <span class="btn-text">Call Us On:</span>
-                                    <a href="tel:+19088000393" class="btn-title">{{ '$about->phone' }}</a>
+                                    <a href="tel:+19088000393" class="btn-title">{{ $about->phone_number }}</a>
                                 </div>
                             </div>
                         </div>
@@ -115,8 +118,8 @@
     <div class="bg-theme space-extra" data-bg-src="{{ asset('assets_frontend/assets/img/bg/counter_bg_1.png') }}">
         <div class="container py-2">
             <div class="row gy-40 justify-content-between">
-                @if(isset($about->achievements) && $about->achievements->where('is_active', true)->count() > 0)
-                    @foreach($about->achievements->where('is_active', true) as $achievement)
+                @if(isset($achievements) && $achievements->count() > 0)
+                    @foreach($achievements as $achievement)
                         <div class="col-6 col-lg-auto">
                         <div class="counter-card">
                             <div class="counter-card_icon">

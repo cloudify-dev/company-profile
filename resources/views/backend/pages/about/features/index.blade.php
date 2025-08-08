@@ -17,7 +17,7 @@
                     <thead>
                         <tr>
                             <th>Sort Order</th>
-                            <th>Icon Path</th>
+                            <th>Image</th>
                             <th>Title</th>
                             <th>Description</th>
                             <th>Status</th>
@@ -32,7 +32,12 @@
                                     <span class="badge bg-info">{{ $feature->sort_order }}</span>
                                 </td>
                                 <td>
-                                    <code class="small">{{ $feature->icon_path }}</code>
+                                    @if ($feature->image)
+                                        <img src="{{ asset('storage/' . $feature->image) }}" class="avatar avatar-sm me-3"
+                                            alt="{{ $feature->title }}">
+                                    @else
+                                        <span class="text-muted">No Image</span>
+                                    @endif
                                 </td>
                                 <td>{{ $feature->title }}</td>
                                 <td>{{ Str::limit($feature->description, 60) }}</td>
