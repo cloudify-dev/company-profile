@@ -8,29 +8,31 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Project extends Model
 {
     use HasFactory;
-    protected $table = 'project';
-
+    
     protected $fillable = [
         'title',
         'description',
         'category',
-        'image',
-        'is_featured',
-        'status',
-        'client_name',
-        'project_url',
-        'technologies',
-        'duration',
-        'budget_range',
-        'team_size',
-        'tags',
+        'client',
+        'location',
         'completion_date',
+        'demo_url',
+        'image',
+        'challenges',
+        'challenge_image',
+        'challenge_points',
+        'results',
+        'result_image_1',
+        'result_image_2',
+        'is_active',
+        'featured',
         'sort_order',
     ];
 
     protected $casts = [
-        'is_featured' => 'boolean',
-        'technologies' => 'array',
+        'is_active' => 'boolean',
+        'featured' => 'boolean',
+        'challenge_points' => 'array',
         'completion_date' => 'date',
     ];
 
@@ -40,15 +42,9 @@ class Project extends Model
         return $query->orderBy('sort_order', 'asc')->orderBy('created_at', 'desc');
     }
 
-    // Scope for featured projects
-    public function scopeFeatured($query)
-    {
-        return $query->where('is_featured', true);
-    }
-
     // Scope for active projects
     public function scopeActive($query)
     {
-        return $query->where('status', 'active');
+        return $query->where('is_active', true);
     }
 }

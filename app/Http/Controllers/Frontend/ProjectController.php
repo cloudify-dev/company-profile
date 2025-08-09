@@ -17,34 +17,19 @@ class ProjectController extends Controller
         if ($request->filled('category')) {
             $query->where('category', $request->category);
         }
-        
-        // Filter by status
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-        
-        // Get featured projects
-        $featuredProjects = Project::query()
-            ->where('is_featured', true)
-            ->where('status', 'active')
-            ->latest()
-            ->orderBy('sort_order', 'asc')
-            ->limit(4)
-            ->get();
-        
+
         // Get all projects with pagination
         $projects = $query->latest()
-            ->where('is_featured', false)
-            ->where('status', 'active')
+            ->where('is_active', true)
             ->orderBy('sort_order', 'asc')
             ->paginate(9);
 
         // Preserve query parameters in pagination
         $projects->appends($request->query());
-        
+
         $pageSettings = PageSetting::where('page_name', 'project')->first();
         
-        return view('frontend.pages.project', compact('projects', 'featuredProjects', 'pageSettings'));
+        return view('frontend.pages.project', compact('projects', 'pageSettings'));
     }
 
     public function details($id)

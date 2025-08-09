@@ -32,19 +32,18 @@
                     </div>
                 </div>
                 <div class="col-md-5 text-md-end">
-                    <!-- All, Featured, Reguler -->
                     <div class="d-flex gap-2 justify-content-md-end flex-wrap">
                         <a href="{{ route('admin.project.index') }}" 
-                           class="btn btn-sm {{ request('is_featured') === null ? 'bg-gradient-primary' : 'btn-outline-primary' }} px-3 mb-0">
-                            All Projects
+                           class="btn btn-sm {{ request('status', 'all') === 'all' ? 'bg-gradient-primary' : 'btn-outline-primary' }} px-3">
+                            All
                         </a>
-                        <a href="{{ route('admin.project.index', array_merge(request()->all(), ['is_featured' => true])) }}" 
-                           class="btn btn-sm {{ request('is_featured') ? 'bg-gradient-info' : 'btn-outline-info' }} px-3 mb-0">
-                            Featured
+                        <a href="{{ route('admin.project.index', array_merge(request()->all(), ['status' => 'active'])) }}" 
+                           class="btn btn-sm {{ request('status') === 'active' ? 'bg-gradient-success' : 'btn-outline-success' }} px-3">
+                            Active
                         </a>
-                        <a href="{{ route('admin.project.index', array_merge(request()->all(), ['is_featured' => false])) }}" 
-                           class="btn btn-sm {{ request('is_featured') !== null && !request('is_featured') ? 'bg-gradient-success' : 'btn-outline-success' }} px-3 mb-0">
-                            Regular
+                        <a href="{{ route('admin.project.index', array_merge(request()->all(), ['status' => 'inactive'])) }}" 
+                           class="btn btn-sm {{ request('status') === 'inactive' ? 'bg-gradient-secondary' : 'btn-outline-secondary' }} px-3">
+                            Inactive
                         </a>
                     </div>
                 </div>
@@ -109,7 +108,7 @@
                                 </td>
                                 <td class="text-center align-middle">
                                     <div class="d-flex flex-column justify-content-center align-items-center">
-                                        @if($project->status === 'active')
+                                        @if($project->is_active)
                                             <span class="badge bg-success text-white px-2 py-1 rounded-pill">
                                                 Active
                                             </span>
@@ -119,11 +118,11 @@
                                             </span>
                                         @endif
 
-                                        @if($project->is_featured ?? false)
+                                        <!-- @if($project->is_featured ?? false)
                                             <span class="badge bg-warning text-white px-2 py-1 rounded-pill mt-2">
                                                 <i class="fas fa-star me-1 text-white"></i>Featured
                                             </span>
-                                        @endif
+                                        @endif -->
                                     </div>
                                 </td>
                                 <td class="text-center align-middle">

@@ -162,15 +162,6 @@
             </div>
             <div class="card-body pt-0">
                 <div class="form-group mb-3">
-                    <label class="form-label">Status</label>
-                    <select name="status" class="form-control">
-                        <option value="active" {{ old('status', $project->status ?? 'active') == 'active' ? 'selected' : '' }}>Active</option>
-                        <option value="inactive" {{ old('status', $project->status ?? '') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                        <!-- <option value="draft" {{ old('status', $project->status ?? '') == 'draft' ? 'selected' : '' }}>Draft</option> -->
-                    </select>
-                </div>
-
-                <div class="form-group mb-3">
                     <label class="form-label">Sort Order</label>
                     <input type="number" name="sort_order" class="form-control" 
                            value="{{ old('sort_order', $project->sort_order ?? 0) }}" 
@@ -185,14 +176,11 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <div class="form-check">
-                        <input type="checkbox" name="is_featured" value="1" 
-                               class="form-check-input" id="is_featured"
-                               {{ old('is_featured', $project->is_featured ?? false) ? 'checked' : '' }}>
-                        <label class="form-check-label" for="is_featured">
-                            <strong>Featured Project</strong>
-                            <br><small class="text-muted">Show in featured section</small>
-                        </label>
+                    <div class="form-check form-switch">
+                        <input type="hidden" name="is_active" value="0">
+                        <input class="form-check-input" type="checkbox" name="is_active" value="1"
+                               {{ old('is_active', $project->is_active ?? true) ? 'checked' : '' }}>
+                        <label class="form-check-label">Active Status</label>
                     </div>
                 </div>
             </div>

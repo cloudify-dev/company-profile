@@ -1,124 +1,79 @@
 @extends('frontend2')
 
 @section('content')
-    {{-- BREADCRUMB --}}
     @include('frontend.partials.breadcrumb', [
         'title' => 'Project Details',
         'bgImage' => !empty($pageSettings?->breadcrumb_image)
             ? 'storage/' . $pageSettings->breadcrumb_image
             : 'assets_frontend/assets/img/bg/breadcumb-bg.jpg',
-        'breadcrumb' => [['url' => url('/project'), 'label' => 'All Projects'], ['label' => $project->title]],
+        'breadcrumb' => [['url' => route('project'), 'label' => 'Home'], ['label' => 'Project Details']],
     ])
-
+    
     <!--==============================
-                                            Project Area
-                                        ==============================-->
+    Project Area
+    ==============================-->
     <section class="space-top space-extra-bottom">
         <div class="container">
             <div class="row">
                 <div class="col-xxl-8 col-lg-8">
                     <div class="page-single">
-                        <div class="page-img position-relative">
+                        <div class="page-img">
                             @if($project->image && file_exists(public_path('storage/' . $project->image)))
-                                <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}" class="w-100 rounded">
+                                <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}">
                             @else
-                                <div class="w-100 bg-light d-flex align-items-center justify-content-center rounded" style="height: 300px;">
-                                    <div class="text-center text-muted">
-                                        <i class="fas fa-image fa-4x mb-3"></i>
-                                        <h5>No Project Image</h5>
-                                        <p class="mb-0">Image not available for this project</p>
-                                    </div>
-                                </div>
+                                <img src="{{ asset('assets_frontend/assets/img/project/project_details.jpg') }}" alt="Project Image">
                             @endif
                         </div>
                         <div class="page-content">
-                            <div class="project-header mb-4 pb-4 border-bottom">
-                                <div class="d-flex justify-content-between align-items-start flex-wrap">
-                                    <div class="flex-grow-1">
-                                        <h2 class="h3 page-title">{{ $project->title }}</h2>
-                                        <div class="d-flex gap-2 mt-2">
-                                            <span class="badge bg-primary text-uppercase">{{ $project->category }}</span>
-                                            @if($project->featured)
-                                                <span class="badge bg-warning text-dark">
-                                                    <i class="fas fa-star me-1"></i>Featured
-                                                </span>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    @if($project->demo_url)
-                                        <div class="project-links mt-3 mt-md-0">
-                                            <a href="{{ $project->demo_url }}" target="_blank" class="th-btn style3">
-                                                <i class="fas fa-external-link-alt me-2"></i>Live Demo
-                                            </a>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
+                            <h2 class="h3 page-title">{{ $project->title }}</h2>
+                            <p class="">{{ $project->description ?: 'Interactively implement top-line ROI vis-a-vis 24/7 e-markets. Assertively communicate web-enabled catalysts for change through low-risk high-yield functionalities. Quickly optimize maintainable data for virtual interfaces. Phosfluorescently monetize cost effective ROI before leveraged sources. Holisticly envisioneer technically sound imperatives without just in time networks.' }}</p>
 
-                            <div class="project-description mb-4">
-                                <p class="lead">{{ $project->description }}</p>
-                            </div>
-
-                            @if($project->technologies)
-                            <div class="bg-light p-4 rounded mb-4">
-                                <h3 class="h5 mb-3">Technologies Used</h3>
-                                <div class="d-flex flex-wrap gap-2">
-                                    @foreach($project->technologies ?: [] as $tech)
-                                        <span class="badge bg-primary">{{ $tech }}</span>
-                                    @endforeach
-                                </div>
-                            </div>
-                            @endif
-
-                            @if($project->challenges)
-                            <div class="bg-light p-4 rounded mb-4">
-                                <h3 class="h5 mb-3">Project Challenges</h3>
-                                <p>{{ $project->challenges }}</p>
-                                <div class="row gy-4 align-items-center mt-3">
+                            <div class="project-inner-box mb-40">
+                                <h3 class="box-title">The challenge of project</h3>
+                                <p class="">{{ $project->challenges ?: 'Authoritatively scale business meta-services before client-based technologies. Collaboratively strategize synergistic scenarios rather than flexible action items. Continually deliver market positioning convergence and mission-critical infrastructures.' }}</p>
+                                <div class="row gy-4 align-items-center">
                                     <div class="col-md-5">
-                                        <img class="w-100 rounded"
-                                            src="{{ asset('assets_frontend/assets/img/project/project_inner_1.jpg') }}"
-                                            alt="project challenge">
+                                        @if($project->challenge_image && file_exists(public_path('storage/' . $project->challenge_image)))
+                                            <img class="w-100 rounded-3" src="{{ asset('storage/' . $project->challenge_image) }}" alt="project">
+                                        @else
+                                            <img class="w-100 rounded-3" src="{{ asset('assets_frontend/assets/img/project/project_inner_1.jpg') }}" alt="project">
+                                        @endif
                                     </div>
                                     <div class="col-md-7">
-                                        <ul class="list-unstyled">
-                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Complex system integration requirements</li>
-                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> High performance and scalability needs</li>
-                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Security and data protection compliance</li>
-                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> User experience optimization</li>
-                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Cross-platform compatibility</li>
-                                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Real-time functionality implementation</li>
-                                        </ul>
+                                        <div class="checklist">
+                                            <ul>
+                                                <li><i class="fas fa-badge-check"></i> {{ $project->challenge_1 ?: 'It is a long established fact that reader will' }}</li>
+                                                <li><i class="fas fa-badge-check"></i> {{ $project->challenge_2 ?: 'There are many variations of passages' }}</li>
+                                                <li><i class="fas fa-badge-check"></i> {{ $project->challenge_3 ?: 'All the Lorem Ipsum generators' }}</li>
+                                                <li><i class="fas fa-badge-check"></i> {{ $project->challenge_4 ?: 'Asearch for \'lorem ipsum\' will uncover many' }}</li>
+                                                <li><i class="fas fa-badge-check"></i> {{ $project->challenge_5 ?: 'injected humour words which' }}</li>
+                                                <li><i class="fas fa-badge-check"></i> {{ $project->challenge_6 ?: 'There are many variations of passages of' }}</li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            @endif
 
-                            @if($project->solutions)
-                            <div class="bg-light p-4 rounded mb-4">
-                                <h3 class="h5 mb-3">Our Solutions</h3>
-                                <p class="mb-3">{{ $project->solutions }}</p>
+                            <div class="project-inner-box">
+                                <h3 class="box-title">The result of project</h3>
+                                <p class="mb-3">{{ $project->results ?: 'Objectively utilize client-based e-service after corporate niche markets. Dynamically morph compelling channels vis-a-vis multifunctional interfaces. Credibly administrate wireless opportunities after B2B materials. Phosfluorescently engineer flexible "outside the box" thinking through process-centric web services. Progressively target multidisciplinary.' }}</p>
                                 <div class="row gy-4 align-items-center">
                                     <div class="col-md-6">
-                                        <img class="w-100 rounded"
-                                            src="{{ asset('assets_frontend/assets/img/project/project_inner_2.jpg') }}"
-                                            alt="project solution">
+                                        @if($project->result_image_1 && file_exists(public_path('storage/' . $project->result_image_1)))
+                                            <img class="w-100 rounded-3" src="{{ asset('storage/' . $project->result_image_1) }}" alt="project">
+                                        @else
+                                            <img class="w-100 rounded-3" src="{{ asset('assets_frontend/assets/img/project/project_inner_2.jpg') }}" alt="project">
+                                        @endif
                                     </div>
                                     <div class="col-md-6">
-                                        <img class="w-100 rounded"
-                                            src="{{ asset('assets_frontend/assets/img/project/project_inner_3.jpg') }}"
-                                            alt="project result">
+                                        @if($project->result_image_2 && file_exists(public_path('storage/' . $project->result_image_2)))
+                                            <img class="w-100 rounded-3" src="{{ asset('storage/' . $project->result_image_2) }}" alt="project">
+                                        @else
+                                            <img class="w-100 rounded-3" src="{{ asset('assets_frontend/assets/img/project/project_inner_3.jpg') }}" alt="project">
+                                        @endif
                                     </div>
                                 </div>
                             </div>
-                            @endif
-
-                            @if($project->results)
-                            <div class="bg-light p-4 rounded mb-4">
-                                <h3 class="h5 mb-3">Project Results</h3>
-                                <p>{{ $project->results }}</p>
-                            </div>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -127,105 +82,56 @@
                         <div class="widget widget_info">
                             <h3 class="widget_title">Project Information</h3>
                             <div class="project-info-list">
-                                @if($project->client_name)
-                                <div class="contact-feature mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-btn me-3"><i class="fa-solid fa-user"></i></div>
-                                        <div>
-                                            <p class="mb-1 fw-bold">Client:</p>
-                                            <span class="text-muted">{{ $project->client_name }}</span>
-                                        </div>
+                                <div class="contact-feature">
+                                    <div class="icon-btn">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="contact-feature_label">Clients:</p>
+                                        <a href="#" class="contact-feature_link">{{ $project->client ?: 'David Jackson' }}</a>
                                     </div>
                                 </div>
-                                @endif
-                                
-                                @if($project->start_date)
-                                <div class="contact-feature mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-btn me-3"><i class="fa-solid fa-calendar-plus"></i></div>
-                                        <div>
-                                            <p class="mb-1 fw-bold">Start Date:</p>
-                                            <span class="text-muted">{{ \Carbon\Carbon::parse($project->start_date)->format('d M, Y') }}</span>
-                                        </div>
+                                <div class="contact-feature">
+                                    <div class="icon-btn">
+                                        <i class="fa-solid fa-folder-open"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="contact-feature_label">Category:</p>
+                                        <a href="#" class="contact-feature_link">{{ $project->category ?: 'IT Technology' }}</a>
                                     </div>
                                 </div>
-                                @endif
-                                
-                                @if($project->completion_date)
-                                <div class="contact-feature mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-btn me-3"><i class="fa-solid fa-calendar-check"></i></div>
-                                        <div>
-                                            <p class="mb-1 fw-bold">Completion Date:</p>
-                                            <span class="text-muted">{{ \Carbon\Carbon::parse($project->completion_date)->format('d M, Y') }}</span>
-                                        </div>
+                                <div class="contact-feature">
+                                    <div class="icon-btn">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="contact-feature_label">Date</p>
+                                        <span class="contact-feature_link">{{ $project->completion_date ? $project->completion_date->format('d M, Y') : '20 Sep, 2024' }}</span>
                                     </div>
                                 </div>
-                                @endif
-                                
-                                @if($project->duration)
-                                <div class="contact-feature mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-btn me-3"><i class="fa-solid fa-clock"></i></div>
-                                        <div>
-                                            <p class="mb-1 fw-bold">Duration:</p>
-                                            <span class="text-muted">{{ $project->duration }}</span>
-                                        </div>
+                                <div class="contact-feature">
+                                    <div class="icon-btn">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="contact-feature_label">Address:</p>
+                                        <a href="#" class="contact-feature_link">{{ $project->location ?: '55 Main Address, USA' }}</a>
                                     </div>
                                 </div>
-                                @endif
-                                
-                                @if($project->team_size)
-                                <div class="contact-feature mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-btn me-3"><i class="fa-solid fa-users"></i></div>
-                                        <div>
-                                            <p class="mb-1 fw-bold">Team Size:</p>
-                                            <span class="text-muted">{{ $project->team_size }} Members</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
-                                
-                                @if($project->budget_range)
-                                <div class="contact-feature mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-btn me-3"><i class="fa-solid fa-dollar-sign"></i></div>
-                                        <div>
-                                            <p class="mb-1 fw-bold">Budget Range:</p>
-                                            <span class="text-muted">{{ $project->budget_range }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
                             </div>
                         </div>
-
-                        @if($project->demo_url || $project->github_url)
                         <div class="widget widget_download">
-                            <h4 class="widget_title">Project Links</h4>
+                            <h4 class="widget_title">Download Brochure</h4>
                             <div class="download-widget-wrap">
-                                @if($project->demo_url)
-                                    <a href="{{ $project->demo_url }}" target="_blank" class="th-btn">
-                                        <i class="fa-solid fa-external-link-alt me-2"></i>LIVE DEMO
-                                    </a>
-                                @endif
-                                @if($project->github_url)
-                                    <a href="{{ $project->github_url }}" target="_blank" class="th-btn style5">
-                                        <i class="fab fa-github me-2"></i>VIEW CODE
-                                    </a>
-                                @endif
+                                <a href="#" class="th-btn"><i class="fa-light fa-file-pdf me-2"></i>DOWNLOAD PDF</a>
+                                <a href="#" class="th-btn style5"><i class="fa-light fa-file-lines me-2"></i>DOWNLOAD DOC</a>
                             </div>
                         </div>
-                        @endif
-
-                        <div class="widget widget_banner"
-                            data-bg-src="{{ asset('assets_frontend/assets/img/bg/widget_banner.jpg') }}">
+                        <div class="widget widget_banner" data-bg-src="{{ asset('assets_frontend/assets/img/bg/widget_banner.jpg') }}">
                             <div class="widget-banner">
                                 <span class="text">CONTACT US NOW</span>
-                                <h2 class="title">Need Similar Project?</h2>
-                                <a href="{{ url('/contact') }}" class="th-btn style3">GET A QUOTE<i
-                                        class="fas fa-arrow-right ms-2"></i></a>
+                                <h2 class="title">You Need Help?</h2>
+                                <a href="#" class="th-btn style3">GET A QUOTE<i class="fas fa-arrow-right ms-2"></i></a>
                             </div>
                         </div>
                     </aside>
@@ -233,4 +139,6 @@
             </div>
         </div>
     </section>
+    
 @endsection
+                                   

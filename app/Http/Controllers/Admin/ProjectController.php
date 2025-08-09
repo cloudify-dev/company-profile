@@ -16,7 +16,7 @@ class ProjectController extends Controller
         // Get search and filter parameters
         $search = $request->get('search');
         $category = $request->get('category');
-        $isFeatured = $request->get('is_featured');
+        $status = $request->get('status');
 
         // Apply search and filters
         if ($search) {
@@ -31,8 +31,8 @@ class ProjectController extends Controller
             $query->where('category', $category);
         }
 
-        if ($isFeatured !== null) {
-            $query->where('is_featured', $isFeatured);
+        if ($status !== null) {
+            $query->where('is_active', $status === 'active');
         }
 
         // Get paginated results
@@ -62,8 +62,8 @@ class ProjectController extends Controller
             'team_size' => 'nullable|string',
             'tags' => 'nullable|string',
             'completion_date' => 'nullable|date',
-            'status' => 'required|string|in:active,inactive,draft',
-            'is_featured' => 'nullable|boolean',
+            // 'status' => 'required|string|in:active,inactive,draft',
+            'is_active' => 'boolean',
             'sort_order' => 'nullable|integer|min:0',
         ]);
 
@@ -76,8 +76,8 @@ class ProjectController extends Controller
             $data['technologies'] = array_map('trim', explode(',', $data['technologies']));
         }
 
-        // Handle featured checkbox
-        $data['is_featured'] = $request->has('is_featured');
+        $data['is_active'] = $request->has('is_active') && $request->is_active == '1';
+        $data['sort_order'] = $data['sort_order'] ?? 0;
 
         $project = Project::create($data);
 
@@ -104,8 +104,8 @@ class ProjectController extends Controller
             'team_size' => 'nullable|string',
             'tags' => 'nullable|string',
             'completion_date' => 'nullable|date',
-            'status' => 'required|string|in:active,inactive,draft',
-            'is_featured' => 'nullable|boolean',
+            // 'status' => 'required|string|in:active,inactive,draft',
+            'is_active' => 'boolean',
             'sort_order' => 'nullable|integer|min:0',
         ]);
 
@@ -121,8 +121,8 @@ class ProjectController extends Controller
             $data['technologies'] = array_map('trim', explode(',', $data['technologies']));
         }
 
-        // Handle featured checkbox
-        $data['is_featured'] = $request->has('is_featured');
+        $data['is_active'] = $request->has('is_active') && $request->is_active == '1';
+        $data['sort_order'] = $data['sort_order'] ?? 0;
 
         $project->update($data);
 
