@@ -33,13 +33,14 @@ class ServiceController extends Controller
 
     public function show($id)
     {
-        $service = Service::findOrFail($id);
+        $service = Service::with(['features', 'benefits', 'faqs'])->findOrFail($id);
+        $allServices = Service::select('id', 'title')->get(); // Get all services for sidebar
         $testimonials = Testimonial::where('is_active', true)->ordered()->get();
         $pageSettings = PageSetting::where('page_name', 'service')->first();
         
         // Get section titles
         $testimonialTitle = SectionTitle::getForSection('testimonial');
 
-        return view('frontend.pages.service-details', compact('service', 'testimonials', 'pageSettings', 'testimonialTitle'));
+        return view('frontend.pages.service-details', compact('service', 'allServices', 'testimonials', 'pageSettings', 'testimonialTitle'));
     }
 }

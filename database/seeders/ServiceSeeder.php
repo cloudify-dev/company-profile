@@ -15,7 +15,32 @@ class ServiceSeeder extends Seeder
         $service = Service::create([
             'title' => 'Smart Farming Technology',
             'description' => 'Menghadirkan solusi teknologi untuk pertanian modern dan efisien.',
-            'image' => 'default/service.jpg', // Pastikan file ini ada di public/storage atau sesuaikan dengan nama file sebenarnya
+            'image' => 'default/service.jpg',
+            'video_url' => 'https://www.youtube.com/watch?v=example',
+            'section_title' => 'We Serve The Best Technology',
+            'checklist_items' => [
+                'Real-time soil and weather monitoring',
+                'Data-driven fertilization recommendations',
+                'IoT integration for automatic irrigation control',
+                'Crop yield prediction analytics',
+                'Pest and disease early detection'
+            ],
+            'additional_description' => 'Our smart farming technology revolutionizes agriculture by providing data-driven insights and automated solutions to optimize crop yield and reduce operational costs.',
+            'benefits_title' => 'Benefits Of Smart Farming',
+            'faqs_title' => 'Frequently Asked Questions',
+            'sidebar_title' => 'Our Technology Services',
+            'sidebar_services' => [
+                ['name' => 'Smart Farming Technology', 'url' => '#'],
+                ['name' => 'IoT Solutions', 'url' => '#'],
+                ['name' => 'Data Analytics', 'url' => '#'],
+                ['name' => 'Automation Systems', 'url' => '#'],
+                ['name' => 'Mobile Applications', 'url' => '#'],
+                ['name' => 'Cloud Services', 'url' => '#']
+            ],
+            'contact_widget_text' => 'NEED HELP?',
+            'contact_widget_title' => 'Ready to Get Started?',
+            'contact_widget_button_text' => 'CONTACT US',
+            'contact_widget_button_link' => '/contact',
         ]);
 
         // Features
