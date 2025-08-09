@@ -147,7 +147,6 @@
                                 </div>
                             </div>
                         </div>
-                        @endif
 
                         <!-- Pricing FAQ -->
                         <div class="faq-item" data-category="pricing">
@@ -268,6 +267,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
 
                     </div>
 
