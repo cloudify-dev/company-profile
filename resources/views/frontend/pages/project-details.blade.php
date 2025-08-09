@@ -37,16 +37,10 @@
                                     <div class="flex-grow-1">
                                         <h2 class="h3 page-title">{{ $project->title }}</h2>
                                         <div class="d-flex gap-2 mt-2">
-                                            <span class="badge bg-primary">{{ $project->category }}</span>
+                                            <span class="badge bg-primary text-uppercase">{{ $project->category }}</span>
                                             @if($project->featured)
                                                 <span class="badge bg-warning text-dark">
                                                     <i class="fas fa-star me-1"></i>Featured
-                                                </span>
-                                            @endif
-                                            @if($project->status)
-                                                <span class="badge bg-{{ $project->status == 'completed' ? 'success' : ($project->status == 'ongoing' ? 'primary' : 'secondary') }}">
-                                                    <i class="fas fa-{{ $project->status == 'completed' ? 'check-circle' : ($project->status == 'ongoing' ? 'clock' : 'calendar') }} me-1"></i>
-                                                    {{ ucfirst($project->status) }}
                                                 </span>
                                             @endif
                                         </div>
@@ -69,7 +63,7 @@
                             <div class="bg-light p-4 rounded mb-4">
                                 <h3 class="h5 mb-3">Technologies Used</h3>
                                 <div class="d-flex flex-wrap gap-2">
-                                    @foreach(json_decode($project->technologies, true) ?: [] as $tech)
+                                    @foreach($project->technologies ?: [] as $tech)
                                         <span class="badge bg-primary">{{ $tech }}</span>
                                     @endforeach
                                 </div>
@@ -145,16 +139,6 @@
                                 </div>
                                 @endif
                                 
-                                <div class="contact-feature mb-3">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-btn me-3"><i class="fa-solid fa-folder-open"></i></div>
-                                        <div>
-                                            <p class="mb-1 fw-bold">Category:</p>
-                                            <span class="text-muted">{{ $project->category }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                
                                 @if($project->start_date)
                                 <div class="contact-feature mb-3">
                                     <div class="d-flex align-items-center">
@@ -214,18 +198,6 @@
                                     </div>
                                 </div>
                                 @endif
-                                
-                                <div class="contact-feature">
-                                    <div class="d-flex align-items-center">
-                                        <div class="icon-btn me-3"><i class="fa-solid fa-chart-line"></i></div>
-                                        <div>
-                                            <p class="mb-1 fw-bold">Status:</p>
-                                            <span class="badge bg-{{ $project->status == 'completed' ? 'success' : ($project->status == 'ongoing' ? 'primary' : 'secondary') }}">
-                                                {{ ucfirst($project->status ?? 'Planning') }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 

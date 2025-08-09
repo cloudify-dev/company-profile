@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Frontend\TeamController as FrontendTeamController;
 use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\Frontend\AboutController;
+use App\Http\Controllers\Frontend\FaqController;
 use App\Models\AboutUsPage;
 
 // LANDING PAGE (INERTIA DEFAULT)
@@ -87,6 +88,9 @@ Route::get('/service-details/{id}', [ServiceController::class, 'show'])->name('s
 // TEAM (FRONTEND)
 Route::get('/team', [FrontendTeamController::class, 'index'])->name('frontend.team');
 Route::get('/team/{id}', [FrontendTeamController::class, 'show'])->name('frontend.team.details');
+
+// FAQ (FRONTEND)
+Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 
 // BACKEND DASHBOARD
 Route::get('/dashboard', function () {

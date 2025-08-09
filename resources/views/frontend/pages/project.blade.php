@@ -81,11 +81,11 @@
                             </div>
                             <div class="project-content-wrap">
                                 <div class="project-content p-4">
-                                    <div class="mb-2">
-                                        <span class="badge bg-primary text-uppercase p-2">{{ $project->category }}</span>
+                                    <div class="mb-3">
+                                        <span class="badge bg-white text-primary text-uppercase">{{ $project->category }}</span>
                                         @if($project->completion_date)
                                             <small class="text-white">
-                                                <i class="fas fa-calendar me-2"></i>{{ \Carbon\Carbon::parse($project->completion_date)->format('M Y') }}
+                                                <i class="fas fa-calendar mx-2"></i>{{ \Carbon\Carbon::parse($project->completion_date)->format('M Y') }}
                                             </small>
                                         @endif
                                     </div>
@@ -154,10 +154,10 @@
                             <div class="project-content-wrap">
                                 <div class="project-content p-4">
                                     <div class="mb-2">
-                                        <span class="badge bg-primary text-uppercase p-2">{{ $project->category }}</span>
+                                        <span class="badge bg-white text-primary text-uppercase">{{ $project->category }}</span>
                                         @if($project->completion_date)
                                             <small class="text-white">
-                                                <i class="fas fa-calendar me-2"></i>{{ \Carbon\Carbon::parse($project->completion_date)->format('M Y') }}
+                                                <i class="fas fa-calendar mx-2"></i>{{ \Carbon\Carbon::parse($project->completion_date)->format('M Y') }}
                                             </small>
                                         @endif
                                     </div>

@@ -27,9 +27,17 @@
         <div class="container">
             <div class="about-card">
                 <div class="about-card_img">
-                    <img class="w-100"
-                        src="{{ $team->image ? asset('storage/' . $team->image) : asset('assets_frontend/assets/img/team/team_details.jpg') }}"
-                        alt="{{ $team->name }}">
+                     @if($team->image && file_exists(public_path('storage/' . $team->image)))
+                        <img src="{{ asset('storage/' . $team->image) }}" alt="{{ $team->name }}" class="w-100">
+                    @else
+                        <div class="w-100 bg-light d-flex align-items-center justify-content-center" style="height: 500px;">
+                            <div class="text-center text-muted">
+                                <i class="fas fa-image fa-4x mb-3"></i>
+                                <h5>No Team Image</h5>
+                                <p class="mb-0">Image not available for this team</p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
                 <div class="about-card_box">
                     <div class="about-card_top">

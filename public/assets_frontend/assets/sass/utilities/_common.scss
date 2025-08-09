@@ -34,24 +34,6 @@
     flex: 1;
 }
 
-.badge {
-    position: absolute;
-    width: -webkit-fit-content;
-    width: -moz-fit-content;
-    width: fit-content;
-    display: inline-block;
-    text-align: center;
-    background-color: $theme-color;
-    color: $white-color;
-    padding: 0.25em 0.45em;
-    font-size: 0.7em;
-    border-radius: 50%;
-    top: 8px;
-    right: 8px;
-    font-weight: 400;
-    transition: 0.3s ease-in-out;
-}
-
 .th-social {
     a {
         display: inline-block;
