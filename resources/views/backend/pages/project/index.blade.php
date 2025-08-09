@@ -129,9 +129,9 @@
                                 <td class="text-center align-middle">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <a href="{{ route('admin.project.edit', $project->id) }}" 
-                                           class="btn btn-sm btn-primary rounded-3 mb-0" 
+                                           class="btn btn-link text-dark p-2 mb-0" 
                                            title="Edit">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="fas fa-edit text-secondary"></i>
                                         </a>
                                         <form action="{{ route('admin.project.destroy', $project->id) }}" 
                                               method="POST" 
@@ -140,7 +140,7 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" 
-                                                    class="btn btn-sm btn-danger rounded-3 mb-0" 
+                                                    class="btn btn-link text-danger p-2 mb-0" 
                                                     title="Delete">
                                                 <i class="fas fa-trash"></i>
                                             </button>

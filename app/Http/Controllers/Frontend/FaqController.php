@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PageSetting;
+use App\Models\Faq;
 
 class FaqController extends Controller
 {
@@ -12,6 +13,9 @@ class FaqController extends Controller
     {
         $pageSettings = PageSetting::where('page_name', 'faq')->first();
         
-        return view('frontend.pages.faq', compact('pageSettings'));
+        // Get FAQs grouped by category
+        $faqs = Faq::active()->ordered()->get()->groupBy('category');
+        
+        return view('frontend.pages.faq', compact('pageSettings', 'faqs'));
     }
 }

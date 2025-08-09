@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link active" href="{{ url('dashboard') }}">
+                <a class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}" href="{{ url('dashboard') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-tv-2 text-dark text-sm opacity-10"></i>
@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('pages/tables') }}">
+                <a class="nav-link {{ request()->is('pages/tables') ? 'active' : '' }}" href="{{ url('pages/tables') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
@@ -32,7 +32,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('admin/project') }}">
+                <a class="nav-link {{ request()->is('admin/project*') ? 'active' : '' }}" href="{{ url('admin/project') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
@@ -41,7 +41,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('admin/team') }}">
+                <a class="nav-link {{ request()->is('admin/team*') ? 'active' : '' }}" href="{{ url('admin/team') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
@@ -50,7 +50,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('admin/testimonial') }}">
+                <a class="nav-link {{ request()->is('admin/testimonial*') ? 'active' : '' }}" href="{{ url('admin/testimonial') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-chat-round text-dark text-sm opacity-10"></i>
@@ -59,7 +59,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('admin/about') }}">
+                <a class="nav-link {{ request()->is('admin/about*') ? 'active' : '' }}" href="{{ url('admin/about') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-calendar-grid-58 text-dark text-sm opacity-10"></i>
@@ -68,7 +68,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.achievements.index') }}">
+                <a class="nav-link {{ request()->is('admin/achievements*') ? 'active' : '' }}" href="{{ route('admin.achievements.index') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-trophy text-dark text-sm opacity-10"></i>
@@ -77,7 +77,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.section-titles.index') }}">
+                <a class="nav-link {{ request()->is('admin/section-titles*') ? 'active' : '' }}" href="{{ route('admin.section-titles.index') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-tag text-dark text-sm opacity-10"></i>
@@ -86,23 +86,32 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#homeMenu" class="nav-link" aria-expanded="false">
+                <a class="nav-link {{ request()->is('admin/faq*') ? 'active' : '' }}" href="{{ route('admin.faq.index') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-support-16 text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">FAQ Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#homeMenu" class="nav-link {{ request()->is('admin/hero*') || request()->is('admin/breadcrumb*') ? 'active' : '' }}" aria-expanded="{{ request()->is('admin/hero*') || request()->is('admin/breadcrumb*') ? 'true' : 'false' }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-briefcase-24 text-dark text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Partials</span>
                 </a>
-                <div class="collapse" id="homeMenu">
+                <div class="collapse {{ request()->is('admin/hero*') || request()->is('admin/breadcrumb*') ? 'show' : '' }}" id="homeMenu">
                     <ul class="nav ms-4">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('admin/hero') }}">
+                            <a class="nav-link {{ request()->is('admin/hero*') ? 'active' : '' }}" href="{{ url('admin/hero') }}">
                                 <span class="sidenav-mini-icon">S</span>
                                 <span class="sidenav-normal">Hero</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('admin/breadcrumb') }}">
+                            <a class="nav-link {{ request()->is('admin/breadcrumb*') ? 'active' : '' }}" href="{{ url('admin/breadcrumb') }}">
                                 <span class="sidenav-mini-icon">H</span>
                                 <span class="sidenav-normal">Breadcrumb</span>
                             </a>
@@ -111,23 +120,23 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#serviceMenu" class="nav-link" aria-expanded="false">
+                <a data-bs-toggle="collapse" href="#serviceMenu" class="nav-link {{ request()->is('admin/service*') ? 'active' : '' }}" aria-expanded="{{ request()->is('admin/service*') ? 'true' : 'false' }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-briefcase-24 text-dark text-sm opacity-10"></i>
                     </div>
                     <span class="nav-link-text ms-1">Service</span>
                 </a>
-                <div class="collapse" id="serviceMenu">
+                <div class="collapse {{ request()->is('admin/service*') ? 'show' : '' }}" id="serviceMenu">
                     <ul class="nav ms-4">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('admin/service') }}">
+                            <a class="nav-link {{ request()->is('admin/service') || request()->is('admin/service/create') || request()->is('admin/service/*/edit') ? 'active' : '' }}" href="{{ url('admin/service') }}">
                                 <span class="sidenav-mini-icon">S</span>
                                 <span class="sidenav-normal">Service</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('admin/service-hero') }}">
+                            <a class="nav-link {{ request()->is('admin/service-hero*') ? 'active' : '' }}" href="{{ url('admin/service-hero') }}">
                                 <span class="sidenav-mini-icon">H</span>
                                 <span class="sidenav-normal">Service Hero</span>
                             </a>
@@ -139,7 +148,7 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('pages/profile') }}">
+                <a class="nav-link {{ request()->is('pages/profile*') ? 'active' : '' }}" href="{{ url('pages/profile') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
@@ -148,7 +157,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('pages/sign-in') }}">
+                <a class="nav-link {{ request()->is('pages/sign-in*') ? 'active' : '' }}" href="{{ url('pages/sign-in') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-copy-04 text-dark text-sm opacity-10"></i>
@@ -157,7 +166,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('pages/sign-up') }}">
+                <a class="nav-link {{ request()->is('pages/sign-up*') ? 'active' : '' }}" href="{{ url('pages/sign-up') }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-collection text-dark text-sm opacity-10"></i>

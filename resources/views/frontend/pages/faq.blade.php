@@ -22,11 +22,17 @@
                             <div class="col-md-4">
                                 <select id="faqCategory" class="form-select">
                                     <option value="">All Categories</option>
-                                    <option value="general">General</option>
-                                    <option value="services">Services</option>
-                                    <option value="pricing">Pricing</option>
-                                    <option value="technical">Technical</option>
-                                    <option value="support">Support</option>
+                                    @if($faqs && $faqs->count() > 0)
+                                        @foreach($faqs->keys() as $category)
+                                            <option value="{{ $category }}">{{ ucfirst($category) }}</option>
+                                        @endforeach
+                                    @else
+                                        <option value="general">General</option>
+                                        <option value="services">Services</option>
+                                        <option value="pricing">Pricing</option>
+                                        <option value="technical">Technical</option>
+                                        <option value="support">Support</option>
+                                    @endif
                                 </select>
                             </div>
                             <div class="col-md-2">
@@ -53,51 +59,74 @@
                 <div class="col-lg-8 mx-auto">
                     <div class="accordion" id="faqAccordion">
                         
-                        <!-- General FAQ -->
-                        <div class="faq-item" data-category="general">
-                            <div class="accordion-item mb-3 rounded overflow-hidden shadow-sm">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                                        <span class="badge bg-primary me-3">General</span>
-                                        What services do you provide?
-                                    </button>
-                                </h2>
-                                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        We provide comprehensive web development services including custom website development, e-commerce solutions, mobile applications, enterprise software, and digital transformation consulting. Our team specializes in modern technologies like Laravel, React, Vue.js, and cloud deployment.
+                        @if($faqs && $faqs->count() > 0)
+                            @php $faqCounter = 1; @endphp
+                            @foreach($faqs as $category => $categoryFaqs)
+                                @foreach($categoryFaqs as $faq)
+                                    <div class="faq-item" data-category="{{ $category }}">
+                                        <div class="accordion-item mb-3 rounded overflow-hidden shadow-sm">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq{{ $faqCounter }}">
+                                                    <span class="badge {{ $faq->category_badge }} me-3">{{ ucfirst($category) }}</span>
+                                                    {{ $faq->question }}
+                                                </button>
+                                            </h2>
+                                            <div id="faq{{ $faqCounter }}" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                                <div class="accordion-body">
+                                                    {!! nl2br(e($faq->answer)) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @php $faqCounter++; @endphp
+                                @endforeach
+                            @endforeach
+                        @else
+                            <!-- Fallback content when no FAQs in database -->
+                            <div class="faq-item" data-category="general">
+                                <div class="accordion-item mb-3 rounded overflow-hidden shadow-sm">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                            <span class="badge bg-primary me-3">General</span>
+                                            What services do you provide?
+                                        </button>
+                                    </h2>
+                                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            We provide comprehensive web development services including custom website development, e-commerce solutions, mobile applications, enterprise software, and digital transformation consulting. Our team specializes in modern technologies like Laravel, React, Vue.js, and cloud deployment.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="faq-item" data-category="general">
-                            <div class="accordion-item mb-3 rounded overflow-hidden shadow-sm">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                        <span class="badge bg-primary me-3">General</span>
-                                        How long have you been in business?
-                                    </button>
-                                </h2>
-                                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        We have been providing professional web development services for over 5 years. Our experienced team has successfully delivered 100+ projects across various industries including healthcare, fintech, e-commerce, and education.
+                            <div class="faq-item" data-category="general">
+                                <div class="accordion-item mb-3 rounded overflow-hidden shadow-sm">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                            <span class="badge bg-primary me-3">General</span>
+                                            How long have you been in business?
+                                        </button>
+                                    </h2>
+                                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            We have been providing professional web development services for over 5 years. Our experienced team has successfully delivered 100+ projects across various industries including healthcare, fintech, e-commerce, and education.
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Services FAQ -->
-                        <div class="faq-item" data-category="services">
-                            <div class="accordion-item mb-3 rounded overflow-hidden shadow-sm">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                        <span class="badge bg-success me-3">Services</span>
-                                        Do you provide custom web development?
-                                    </button>
-                                </h2>
-                                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                                    <div class="accordion-body">
-                                        Yes, we specialize in custom web development tailored to your specific business needs. We build scalable, secure, and performance-optimized solutions using the latest technologies and best practices.
+                            <!-- Services FAQ -->
+                            <div class="faq-item" data-category="services">
+                                <div class="accordion-item mb-3 rounded overflow-hidden shadow-sm">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                            <span class="badge bg-success me-3">Services</span>
+                                            Do you provide custom web development?
+                                        </button>
+                                    </h2>
+                                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                        <div class="accordion-body">
+                                            Yes, we specialize in custom web development tailored to your specific business needs. We build scalable, secure, and performance-optimized solutions using the latest technologies and best practices.
                                     </div>
                                 </div>
                             </div>

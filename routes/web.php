@@ -139,4 +139,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::controller(\App\Http\Controllers\Admin\AchievementController::class)->group(function () {
         Route::patch('achievements/{achievement}/toggle', 'toggle')->name('achievements.toggle');
     });
+
+    // FAQ routes
+    Route::resource('faq', \App\Http\Controllers\Admin\FAQController::class);
 });
