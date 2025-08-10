@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Frontend\TeamController as FrontendTeamController;
 use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\Frontend\AboutController;
+use App\Http\Controllers\Frontend\BlogController;
 use App\Models\AboutUsPage;
 
 // LANDING PAGE (INERTIA DEFAULT)
@@ -72,6 +73,7 @@ Route::get('/', function () {
 
 // ABOUT (FRONTEND)
 Route::get('/service', [ServiceController::class, 'index'])->name('service');
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 // PROJECT (FRONTEND)
@@ -111,6 +113,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('service-page-settings', 'pageSettings')->name('service.page-settings');
         Route::put('service-page-settings', 'updatePageSettings')->name('service.page-settings.update');
     });
+    Route::resource('blog', \App\Http\Controllers\Admin\BlogController::class);
+    Route::resource('blogCategory', \App\Http\Controllers\Admin\BlogCategoryController::class);
     Route::resource('project', \App\Http\Controllers\Admin\ProjectController::class);
     Route::resource('team', \App\Http\Controllers\Admin\TeamController::class);
     Route::resource('testimonial', \App\Http\Controllers\Admin\TestimonialController::class);
