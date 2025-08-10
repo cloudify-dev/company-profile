@@ -20,7 +20,7 @@ class ServiceController extends Controller
         $servicePage = ServicePage::where('is_active', true)->first();
         
         // Get section titles
-        $testimonialTitle = SectionTitle::getForSection('testimonial');
+        $testimonialTitle = SectionTitle::getForSection('customer-feedback');
         
         // If no service page settings found, create default
         if (!$servicePage) {
@@ -39,7 +39,7 @@ class ServiceController extends Controller
         $pageSettings = PageSetting::where('page_name', 'service')->first();
         
         // Get section titles
-        $testimonialTitle = SectionTitle::getForSection('testimonial');
+        $testimonialTitle = SectionTitle::getForSection('customer-feedback');
 
         return view('frontend.pages.service-details', compact('service', 'allServices', 'testimonials', 'pageSettings', 'testimonialTitle'));
     }

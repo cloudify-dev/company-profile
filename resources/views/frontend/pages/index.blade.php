@@ -312,15 +312,15 @@
     <!--</section>-->
 
     <!--==============================
-                                                                        Feature Area
-                                                                    ==============================-->
+                                                        Feature Area
+                                                    ==============================-->
     <div class="space-top" data-bg-src="{{ asset('assets_frontend/assets/img/bg/why_bg_1.png') }}">
         <div class="container">
             <div class="row align-items-center flex-row-reverse">
                 <div class="col-xxl-7 col-xl-6 mb-30 mb-xl-0">
                     <div class="img-box2">
                         <div class="img1">
-                            <img src="{{ asset('assets_frontend/assets/img/normal/why_1_1.jpg') }}" alt="Why">
+                            <img src="{{ $whyChooseUs && $whyChooseUs->image ? asset('storage/' . $whyChooseUs->image) : asset('assets_frontend/assets/img/normal/why_1_1.jpg') }}" alt="Why">
                         </div>
                     </div>
                 </div>
@@ -333,37 +333,49 @@
                                 <img src="{{ asset('assets_frontend/assets/img/theme-img/title_shape_1.svg') }}"
                                     alt="shape">
                             </div>
-                            WHY CHOOSE US
+                            {{ $whyChooseUs->subtitle ?? 'WHY CHOOSE US' }}
                         </span>
-                        <h2 class="sec-title">We Deal With The Aspects Professional <span class="text-theme">IT
-                                Services</span></h2>
+                        <h2 class="sec-title">{{ $whyChooseUs->title_black ?? 'We Deal With The Aspects Professional' }} <span class="text-theme">{{ $whyChooseUs->title_blue ?? 'IT Services' }}</span></h2>
                     </div>
                     <p class="mt-n2 mb-30">
-                        Collaboratively envisioneer user friendly supply chains and cross unit imperative.
-                        Authoritativel fabricate competitive resource and holistic.
+                        {{ $whyChooseUs->description ?? 'Collaboratively envisioneer user friendly supply chains and cross unit imperative. Authoritativel fabricate competitive resource and holistic.' }}
                     </p>
-                    <div class="two-column">
-                        <div class="checklist style2">
-                            <ul>
-                                <li><i class="far fa-check"></i> Big Data Analysis</li>
-                                <li><i class="far fa-check"></i> 24/7 Online Support</li>
-                                <li><i class="far fa-check"></i> Business Improvement</li>
-                            </ul>
-                        </div>
-                        <div class="checklist style2">
-                            <ul>
-                                <li><i class="far fa-check"></i> High Quality Sicurity</li>
-                                <li><i class="far fa-check"></i> 24/7 Support Team</li>
-                                <li><i class="far fa-check"></i> Easy Solutions</li>
-                            </ul>
-                        </div>
+                    <div class="row">
+                        @if($whyChooseUs && $whyChooseUs->features->count() > 0)
+                            @foreach($whyChooseUs->features as $feature)
+                                <div class="col-md-6">
+                                    <div class="checklist style2">
+                                        <ul>
+                                            <li><i class="{{ $feature->icon ?? 'far fa-check' }}"></i> {{ $feature->title }}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="col-md-6">
+                                <div class="checklist style2">
+                                    <ul>
+                                        <li><i class="far fa-check"></i> Big Data Analysis</li>
+                                        <li><i class="far fa-check"></i> 24/7 Online Support</li>
+                                        <li><i class="far fa-check"></i> Business Improvement</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="checklist style2">
+                                    <ul>
+                                        <li><i class="far fa-check"></i> High Quality Security</li>
+                                        <li><i class="far fa-check"></i> 24/7 Support Team</li>
+                                        <li><i class="far fa-check"></i> Easy Solutions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <!--==============================
+    </div>    <!--==============================
                                                                         Counter Area
                                                                     ==============================-->
     <div class="space-top" data-pos-for=".team-sec" data-sec-pos="bottom-half">
@@ -566,9 +578,20 @@
         <div class="shape-mockup" data-top="0%" data-right="0%">
             <img src="{{ asset('assets_frontend/assets/img/shape/tech_shape_1.png') }}" alt="shape">
         </div>
+                </div>
         <div class="shape-mockup" data-bottom="0%" data-left="0%">
             <img src="{{ asset('assets_frontend/assets/img/shape/tech_shape_2.png') }}" alt="shape">
         </div>
+    </section>
+
+    <!--==============================
+                                                        Testimonial Area
+                                                    ==============================-->
+    @include('frontend.partials.testimonial-section')
+
+    <!--==============================
+                                                    Contact Area
+                                                ==============================-->
     </section>
 
     <!--==============================
@@ -588,14 +611,27 @@
                                     <img src="{{ asset('assets_frontend/assets/img/theme-img/title_shape_1.svg') }}"
                                         alt="shape">
                                 </div>
-                                TESTIMONIALS
+                                @if(isset($testimonialTitle) && $testimonialTitle)
+                                    {{ $testimonialTitle->subtitle }}
+                                @else
+                                    {{ $subtitle ?? 'TESTIMONIALS' }}
+                                @endif
                             </span>
-                            <h2 class="sec-title text-white">Let’s Hear What Are The Customer <span
-                                    class="text-theme">Saying</span></h2>
+                            @if(isset($testimonialTitle) && $testimonialTitle)
+                                <h2 class="sec-title text-white">{{ $testimonialTitle->title_black }} <span
+                                    class="text-theme">{{ $testimonialTitle->title_blue }}</span></h2>
+                            @else
+                                <h2 class="sec-title text-white">Let’s Hear What Are The Customer <span
+                                        class="text-theme">Saying</span></h2>
+                            @endif
                         </div>
                         <p class="mt-n2 mb-35 text-white">
-                            Appropriately envisioneer leveraged information through 2.0 communities.
-                            Synergistically parallel task inexpensive products whereas cross-media ideas.
+                            @if(isset($testimonialTitle) && $testimonialTitle)
+                                {{ $testimonialTitle->description }}
+                            @else
+                                Appropriately envisioneer leveraged information through 2.0 communities.
+                                Synergistically parallel task inexpensive products whereas cross-media ideas.
+                            @endif
                         </p>
                         <a href="{{ url('about') }}" class="th-btn style3 shadow-none">VIEW MORE<i
                                 class="fa-regular fa-arrow-right ms-2"></i></a>
@@ -607,32 +643,6 @@
                         <div class="swiper th-slider" id="testiSlide1"
                             data-slider-options='{"loop":true,"breakpoints":{"0":{"slidesPerView":1},"576":{"slidesPerView":"1"},"768":{"slidesPerView":"1"},"992":{"slidesPerView":"1"},"1200":{"slidesPerView":"1"}}}'>
                             <div class="swiper-wrapper">
-
-                                @php
-                                    $testimonials = [
-                                        [
-                                            'img' => 'testi_1_1.jpg',
-                                            'name' => 'Alex Farnandes',
-                                            'role' => 'UI/UX Designer',
-                                        ],
-                                        [
-                                            'img' => 'testi_1_2.jpg',
-                                            'name' => 'Mariana Sonia',
-                                            'role' => 'CEO at Corola',
-                                        ],
-                                        [
-                                            'img' => 'testi_1_3.jpg',
-                                            'name' => 'Abraham Khalil',
-                                            'role' => 'UI/UX Designer',
-                                        ],
-                                        [
-                                            'img' => 'testi_1_4.jpg',
-                                            'name' => 'Alexa Jenifer',
-                                            'role' => 'CEO at Morosto',
-                                        ],
-                                    ];
-                                @endphp
-
                                 @foreach ($testimonials as $index => $testi)
                                     <div class="swiper-slide">
                                         <div class="testi-card">
@@ -641,15 +651,16 @@
                                                     <i class="fa-solid fa-star-sharp"></i>
                                                 @endfor
                                             </div>
-                                            <p class="testi-card_text">“Testimonial content {{ $index + 1 }} here…”</p>
+                                            <p class="testi-card_text">{{ $testi['review'] }}</p>
                                             <div class="testi-card_profile">
                                                 <div class="testi-card_avater">
-                                                    <img src="{{ asset('assets_frontend/assets/img/testimonial/' . $testi['img']) }}"
-                                                        alt="testimonial">
+                                                    <img src="{{ isset($testi->image) && $testi->image ? asset('storage/' . $testi->image) : asset('assets_frontend/assets/img/testimonial/testi_2_1.jpg') }}"
+                                                        style="width: 80px; height: 80px;"
+                                                        alt="Avatar">
                                                 </div>
                                                 <div class="media-body">
                                                     <h3 class="testi-card_name">{{ $testi['name'] }}</h3>
-                                                    <span class="testi-card_desig">{{ $testi['role'] }}</span>
+                                                    <span class="testi-card_desig">{{ $testi['position'] }}</span>
                                                 </div>
                                             </div>
                                             <div class="testi-card_quote">
@@ -684,7 +695,7 @@
                                                     Contact Area
                                                 ==============================-->
     <div class="space" id="contact-sec"
-        data-bg-src="{{ asset('assets_frontend/assets/img/bg/appointment_bg_1.jpg') }}">
+        data-bg-src="{{ $contactSection && $contactSection->background_image ? asset('storage/' . $contactSection->background_image) : asset('assets_frontend/assets/img/bg/appointment_bg_1.jpg') }}">
         <div class="container">
             <div class="row">
                 <div class="col-xl-6 pe-xxl-5 mb-40 mb-xl-0">
@@ -696,42 +707,57 @@
                                 <img src="{{ asset('assets_frontend/assets/img/theme-img/title_shape_1.svg') }}"
                                     alt="shape">
                             </div>
-                            APPOINTMENT NOW
+                            {{ $contactSectionTitle->subtitle ?? 'APPOINTMENT NOW' }}
                         </span>
                         <h2 class="sec-title">
-                            We're Ready to Talk About Your <span class="text-theme">Opportunities</span>
+                            {{ $contactSectionTitle->title_black ?? 'We\'re Ready to Talk About Your' }} <span class="text-theme">{{ $contactSectionTitle->title_blue ?? 'Opportunities' }}</span>
                         </h2>
                     </div>
                     <p class="mt-n2 mb-30 text-xl-start text-center">
-                        Progressively morph principle-centered e-markets without an expanded array of opportunities.
-                        Conveniently incubate e-tailers for extensive leadership skills.
-                        Holisticly extend leading-edge vortals vis-a-vis 24/7 e-markets.
-                        Appropriately evolve efficient functionalities with installed base relationships.
+                        {{ $contactSectionTitle->description ?? 'Progressively morph principle-centered e-markets without an expanded array of opportunities. Conveniently incubate e-tailers for extensive leadership skills. Holisticly extend leading-edge vortals vis-a-vis 24/7 e-markets. Appropriately evolve efficient functionalities with installed base relationships.' }}
                     </p>
                     <div class="contact-feature-wrap">
-                        <div class="contact-feature">
-                            <div class="icon-btn">
-                                <i class="fa-solid fa-phone"></i>
+                        @if($contactSection && $contactSection->features->count() > 0)
+                            @foreach($contactSection->features as $feature)
+                                <div class="contact-feature">
+                                    <div class="icon-btn">
+                                        <i class="{{ $feature->icon }}"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <p class="contact-feature_label">{{ $feature->label }}</p>
+                                        @if($feature->link)
+                                            <a href="{{ $feature->link }}" class="contact-feature_link">{{ $feature->value }}</a>
+                                        @else
+                                            <span class="contact-feature_link">{{ $feature->value }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="contact-feature">
+                                <div class="icon-btn">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div class="media-body">
+                                    <p class="contact-feature_label">Call Us On:</p>
+                                    <a href="tel:+19088000393" class="contact-feature_link">+190-8800-0393</a>
+                                </div>
                             </div>
-                            <div class="media-body">
-                                <p class="contact-feature_label">Call Us On:</p>
-                                <a href="tel:+19088000393" class="contact-feature_link">+190-8800-0393</a>
+                            <div class="contact-feature">
+                                <div class="icon-btn">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div class="media-body">
+                                    <p class="contact-feature_label">Quick Mail Us:</p>
+                                    <a href="mailto:info@webteck.com" class="contact-feature_link">info@webteck.com</a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="contact-feature">
-                            <div class="icon-btn">
-                                <i class="fa-solid fa-envelope"></i>
-                            </div>
-                            <div class="media-body">
-                                <p class="contact-feature_label">Quick Mail Us:</p>
-                                <a href="mailto:info@webteck.com" class="contact-feature_link">info@webteck.com</a>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
 
                 <div class="col-xl-6 ps-xl-4">
-                    <h3 class="h4 mt-n2 mb-30 text-center">Make An Appointment</h3>
+                    <h3 class="h4 mt-n2 mb-30 text-center">{{ $contactSection->form_title ?? 'Make An Appointment' }}</h3>
                     <form action="mail.php" method="POST" class="appoitment-form ajax-contact">
                         <div class="row">
                             <div class="form-group col-sm-6">

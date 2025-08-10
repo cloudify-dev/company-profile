@@ -8,8 +8,9 @@ use Inertia\Inertia;
 use App\Models\Service;
 use App\Models\HeroSlide;
 use App\Models\Team;
-use App\Models\Testimonial;
-use App\Models\PageSetting;
+use App\Models\WhyChooseUs;
+use App\Models\ContactSection;
+use App\Models\SectionTitle;
 use App\Http\Controllers\Frontend\ProjectController;
 use App\Http\Controllers\Admin\TeamController;
 use App\Http\Controllers\Frontend\TeamController as FrontendTeamController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\FaqController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Models\AboutUsPage;
+use App\Models\Testimonial;
 
 // LANDING PAGE (INERTIA DEFAULT)
 // Route::get('/', function () {
@@ -71,7 +73,16 @@ Route::get('/', function () {
     $teams = Team::latest()->take(8)->get();
     $projects = \App\Models\Project::latest()->take(9)->get(); // ambil max 9 project
     $achievements = \App\Models\Achievement::where('is_active', true)->ordered()->get(); // independent achievements
-    return view('frontend.pages.index', compact('slides', 'services', 'teams', 'projects', 'about', 'achievements'));
+    $whyChooseUs = WhyChooseUs::where('is_active', true)->with(['features' => function($query) {
+        $query->active()->ordered();
+    }])->first();
+    $contactSectionTitle = SectionTitle::getForSection('appointment-contact');
+    $contactSection = ContactSection::where('is_active', true)->with(['features' => function($query) {
+        $query->active()->ordered();
+    }])->first();
+    $testimonialTitle = SectionTitle::getForSection('testimonials');
+    $testimonials = Testimonial::where('is_active', true)->ordered()->get();
+    return view('frontend.pages.index', compact('slides', 'services', 'teams', 'projects', 'about', 'achievements', 'whyChooseUs', 'contactSection', 'testimonialTitle', 'testimonials', 'contactSectionTitle'));
 });
 
 // ABOUT (FRONTEND)
@@ -153,4 +164,32 @@ Route::prefix('admin')->name('admin.')->group(function () {
     
     // Contact Settings routes
     Route::resource('contact-settings', \App\Http\Controllers\Admin\ContactSettingController::class);
+
+    // Why Choose Us routes
+    Route::resource('why-choose-us', \App\Http\Controllers\Admin\WhyChooseUsController::class);
+    Route::controller(\App\Http\Controllers\Admin\WhyChooseUsController::class)->group(function () {
+        Route::patch('why-choose-us/{whyChooseUs}/toggle', 'toggle')->name('why-choose-us.toggle');
+        // Features Routes
+        Route::get('why-choose-us/{whyChooseUs}/features', 'features')->name('why-choose-us.features');
+        Route::get('why-choose-us/{whyChooseUs}/features/create', 'createFeature')->name('why-choose-us.features.create');
+        Route::post('why-choose-us/{whyChooseUs}/features', 'storeFeature')->name('why-choose-us.features.store');
+        Route::get('why-choose-us/{whyChooseUs}/features/{feature}/edit', 'editFeature')->name('why-choose-us.features.edit');
+        Route::put('why-choose-us/{whyChooseUs}/features/{feature}', 'updateFeature')->name('why-choose-us.features.update');
+        Route::delete('why-choose-us/{whyChooseUs}/features/{feature}', 'destroyFeature')->name('why-choose-us.features.destroy');
+        Route::patch('why-choose-us/{whyChooseUs}/features/{feature}/toggle', 'toggleFeature')->name('why-choose-us.features.toggle');
+    });
+
+    // Contact Section routes
+    Route::resource('contact-section', \App\Http\Controllers\Admin\ContactSectionController::class);
+    Route::controller(\App\Http\Controllers\Admin\ContactSectionController::class)->group(function () {
+        Route::patch('contact-section/{contactSection}/toggle', 'toggle')->name('contact-section.toggle');
+        // Features Routes
+        Route::get('contact-section/{contactSection}/features', 'features')->name('contact-section.features');
+        Route::get('contact-section/{contactSection}/features/create', 'createFeature')->name('contact-section.features.create');
+        Route::post('contact-section/{contactSection}/features', 'storeFeature')->name('contact-section.features.store');
+        Route::get('contact-section/{contactSection}/features/{feature}/edit', 'editFeature')->name('contact-section.features.edit');
+        Route::put('contact-section/{contactSection}/features/{feature}', 'updateFeature')->name('contact-section.features.update');
+        Route::delete('contact-section/{contactSection}/features/{feature}', 'destroyFeature')->name('contact-section.features.destroy');
+        Route::patch('contact-section/{contactSection}/features/{feature}/toggle', 'toggleFeature')->name('contact-section.features.toggle');
+    });
 });

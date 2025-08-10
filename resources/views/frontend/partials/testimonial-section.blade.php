@@ -35,7 +35,8 @@ Testimonial Area
                                 <div class="testi-box">
                                     <div class="testi-box_img">
                                         <img src="{{ isset($testimonial->image) && $testimonial->image ? asset('storage/' . $testimonial->image) : asset('assets_frontend/assets/img/testimonial/testi_2_1.jpg') }}"
-                                            alt="Avatar">
+                                            alt="Avatar"
+                                            style="width: 150px; height: 150px;">
                                         <div class="testi-box_quote">
                                             <img src="{{ asset('assets_frontend/assets/img/icon/quote_left_2.svg') }}"
                                                 alt="quote">

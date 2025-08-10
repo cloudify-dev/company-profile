@@ -52,7 +52,7 @@
                     <div class="widget footer-widget">
                         <h3 class="widget_title">About Company</h3>
                         <div class="th-widget-about">
-                            <p class="about-text">
+                            <p class="about-text" style="word-break: break-word;">
                                 {{ $about->title_description ?? 'Cloudify Indonesia is a leading IT service provider, dedicated to delivering innovative solutions that empower businesses to thrive in the digital age. Our team of experts is committed to excellence, ensuring that we meet the unique needs of each client with tailored services.' }}
                             </p>
                             <div class="th-social">

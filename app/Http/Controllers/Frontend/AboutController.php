@@ -40,7 +40,7 @@ class AboutController extends Controller
             ->orderBy('sort_order', 'asc')
             ->get();
         $teamTitle = SectionTitle::getForSection('team');
-        $testimonialTitle = SectionTitle::getForSection('testimonial');
+        $testimonialTitle = SectionTitle::getForSection('customer-feedback');
         $achievementsTitle = SectionTitle::getForSection('achievements');
 
         return view('frontend.pages.about', compact('teams', 'testimonials', 'about', 'teamTitle', 'testimonialTitle', 'achievementsTitle', 'achievements'));

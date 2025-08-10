@@ -22,7 +22,7 @@ class SectionTitleSeeder extends Seeder
                 'is_active' => true,
             ],
             [
-                'section_name' => 'testimonial',
+                'section_name' => 'customer-feedback',
                 'subtitle' => 'CUSTOMER FEEDBACK',
                 'title_black' => 'What Happy Clients Says',
                 'title_blue' => 'About Us?',
@@ -43,6 +43,23 @@ class SectionTitleSeeder extends Seeder
                 'title_black' => 'Let\'s Check Our',
                 'title_blue' => 'Latest Projects',
                 'description' => 'Explore our recent successful projects and achievements',
+                'is_active' => true,
+            ],
+            [
+                'section_name' => 'testimonials',
+                'subtitle' => 'TESTIMONIALS',
+                'title_black' => 'Let\'s Hear What Are The Customer ',
+                'title_blue' => 'Saying',
+                'description' => 'Appropriately envisioneer leveraged information through 2.0 communities.
+                Synergistically parallel task inexpensive products whereas cross-media ideas.',
+                'is_active' => true,
+            ],
+            [
+                'section_name' => 'appointment-contact',
+                'subtitle' => 'APPOINTMENT NOW',
+                'title_black' => 'We\'re Ready to Talk About Your ',
+                'title_blue' => 'Opportunities',
+                'description' => 'Progressively morph principle-centered e-markets without an expanded array of opportunities. Conveniently incubate e-tailers for extensive leadership skills. Holisticly extend leading-edge vortals vis-a-vis 24/7 e-markets. Appropriately evolve efficient functionalities with installed base relationships.',
                 'is_active' => true,
             ],
         ];

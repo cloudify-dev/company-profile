@@ -9,9 +9,31 @@ use Illuminate\Support\Facades\Storage;
 
 class TestimonialController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $testimonials = Testimonial::ordered()->get();
+        $query = Testimonial::query();
+        
+        // Get search and filter parameters
+        $search = $request->get('search');
+        $status = $request->get('status');
+
+        // Apply search and filters
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('position', 'like', "%{$search}%")
+                  ->orWhere('company', 'like', "%{$search}%")
+                  ->orWhere('review', 'like', "%{$search}%");
+            });
+        }
+
+        if ($status !== null) {
+            $query->where('is_active', $status === 'active');
+        }
+
+        // Get paginated results
+        $testimonials = $query->ordered()->paginate(10)->withQueryString();
+
         return view('backend.pages.testimonial.index', compact('testimonials'));
     }
 

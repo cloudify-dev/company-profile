@@ -104,6 +104,24 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link {{ request()->is('admin/why-choose-us*') ? 'active' : '' }}" href="{{ route('admin.why-choose-us.index') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-check-bold text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Why Choose Us</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('admin/contact-section*') ? 'active' : '' }}" href="{{ route('admin.contact-section.index') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-chat-round text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Contact Section</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#homeMenu" class="nav-link {{ request()->is('admin/hero*') || request()->is('admin/breadcrumb*') ? 'active' : '' }}" aria-expanded="{{ request()->is('admin/hero*') || request()->is('admin/breadcrumb*') ? 'true' : 'false' }}">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
