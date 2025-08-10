@@ -58,8 +58,9 @@
                         <tr>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" width="80">Image</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project Info</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Client & Location</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Category</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Description</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Completion</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" width="100">Status</th>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" width="120">Actions</th>
                         </tr>
@@ -71,14 +72,14 @@
                                     @if ($project->image)
                                         <img src="{{ asset('storage/' . $project->image) }}" 
                                              class="rounded shadow-sm" 
-                                             width="48" 
-                                             height="48" 
-                                             style="object-fit: cover;"
+                                             width="50" 
+                                             height="50" 
+                                             style="object-fit: cover; object-position: center;"
                                              alt="{{ $project->title }}">
                                     @else
-                                        <div class="bg-secondary rounded shadow-sm position-absolute top-50 start-50 translate-middle d-flex align-items-center justify-content-center" 
-                                             style="width: 48px; height: 48px;">
-                                            <i class="fas fa-image text-white"></i>
+                                        <div class="bg-gradient-secondary rounded shadow-sm d-flex align-items-center justify-content-center mx-auto" 
+                                             style="width: 50px; height: 50px; min-width: 50px;">
+                                            <i class="fas fa-folder-open text-white"></i>
                                         </div>
                                     @endif
                                 </td>
@@ -86,25 +87,50 @@
                                     <div>
                                         <h6 class="mb-1 fw-semibold text-dark">{{ $project->title }}</h6>
                                         <p class="text-muted mb-0 small">
-                                            <i class="fas fa-calendar me-1"></i>
-                                            {{ $project->created_at->format('M d, Y') }}
+                                            {{ Str::limit($project->description, 60) }}
                                         </p>
+                                        @if($project->demo_url)
+                                            <p class="text-muted mb-0 small">
+                                                <i class="fas fa-external-link-alt me-1"></i>
+                                                <a href="{{ $project->demo_url }}" target="_blank" class="text-decoration-none">Demo</a>
+                                            </p>
+                                        @endif
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        @if($project->client)
+                                            <h6 class="mb-1 fw-semibold text-dark">{{ $project->client }}</h6>
+                                        @else
+                                            <h6 class="mb-1 text-muted">-</h6>
+                                        @endif
+                                        @if($project->location)
+                                            <p class="text-muted mb-0 small">
+                                                <i class="fas fa-map-marker-alt me-1"></i>
+                                                {{ $project->location }}
+                                            </p>
+                                        @endif
                                     </div>
                                 </td>
                                 <td class="text-center align-middle">
                                     <span class="badge 
-                                        @if($project->category === 'web') bg-info 
-                                        @elseif($project->category === 'mobile') bg-success 
-                                        @elseif($project->category === 'desktop') bg-warning 
+                                        @if($project->category === 'Web Development') bg-info 
+                                        @elseif($project->category === 'Mobile Development') bg-success 
+                                        @elseif($project->category === 'UI/UX Design') bg-warning 
+                                        @elseif($project->category === 'E-commerce') bg-purple
                                         @else bg-secondary @endif 
                                         text-white px-2 py-1 rounded-pill">
-                                        {{ ucfirst($project->category) }}
+                                        {{ $project->category }}
                                     </span>
                                 </td>
-                                <td>
-                                    <p class="text-muted mb-0 small">
-                                        {{ Str::limit($project->description, 95) }}
-                                    </p>
+                                <td class="text-center align-middle">
+                                    @if($project->completion_date)
+                                        <span class="text-dark small fw-semibold">
+                                            {{ $project->completion_date->format('M d, Y') }}
+                                        </span>
+                                    @else
+                                        <span class="text-muted small">-</span>
+                                    @endif
                                 </td>
                                 <td class="text-center align-middle">
                                     <div class="d-flex flex-column justify-content-center align-items-center">
@@ -117,12 +143,11 @@
                                                 Inactive
                                             </span>
                                         @endif
-
-                                        <!-- @if($project->is_featured ?? false)
-                                            <span class="badge bg-warning text-white px-2 py-1 rounded-pill mt-2">
-                                                <i class="fas fa-star me-1 text-white"></i>Featured
+                                        @if($project->challenge_points && count($project->challenge_points) > 0)
+                                            <span class="badge bg-info text-white px-2 py-1 rounded-pill mt-1 small">
+                                                {{ count($project->challenge_points) }} Challenges
                                             </span>
-                                        @endif -->
+                                        @endif
                                     </div>
                                 </td>
                                 <td class="text-center align-middle">
@@ -149,7 +174,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center py-5">
+                                <td colspan="7" class="text-center py-5">
                                     <div class="d-flex flex-column align-items-center gap-3">
                                         <div class="bg-light rounded-circle d-flex align-items-center justify-content-center" 
                                              style="width: 80px; height: 80px;">
@@ -185,77 +210,110 @@
                 @forelse ($projects as $project)
                     <div class="card shadow-sm mb-3 mx-3 project-card">
                         <div class="card-body p-3">
-                            <!-- Header with Image and Category -->
-                            <div class="d-flex align-items-center gap-3 mb-3">
-                                <div class="flex-shrink-0">
+                            <!-- Header with Image and Info -->
+                            <div class="d-flex align-items-start gap-3 mb-3">
+                                <div class="flex-shrink-0" style="width: 60px; height: 60px;">
                                     @if ($project->image)
                                         <img src="{{ asset('storage/' . $project->image) }}" 
                                              class="rounded shadow-sm" 
-                                             width="48" 
-                                             height="48" 
+                                             width="60" 
+                                             height="60" 
                                              style="object-fit: cover;"
                                              alt="{{ $project->title }}">
                                     @else
-                                        <div class="bg-secondary rounded d-flex align-items-center justify-content-center shadow-sm" 
-                                             style="width: 48px; height: 48px;">
-                                            <i class="fas fa-image text-white"></i>
+                                        <div class="bg-gradient-secondary rounded d-flex align-items-center justify-content-center shadow-sm" 
+                                             style="width: 60px; height: 60px; min-width: 60px;">
+                                            <i class="fas fa-folder-open text-white fa-lg"></i>
                                         </div>
                                     @endif
                                 </div>
-                                <div class="flex-grow-1 min-w-0">
-                                    <h6 class="mb-1 fw-semibold text-dark">{{ $project->title }}</h6>
-                                    <p class="text-muted mb-0 small">
-                                        <i class="fas fa-calendar me-1"></i>
-                                        {{ $project->created_at->format('M d, Y') }}
-                                    </p>
-                                </div>
-                                <div class="flex-shrink-0">
-                                    <span class="badge 
-                                        @if($project->category === 'web') bg-info 
-                                        @elseif($project->category === 'mobile') bg-success 
-                                        @elseif($project->category === 'desktop') bg-warning 
-                                        @else bg-secondary @endif 
-                                        text-white px-2 py-1 rounded-pill small">
-                                        {{ ucfirst($project->category) }}
-                                    </span>
+                                <div class="flex-grow-1" style="min-width: 0; overflow: hidden;">
+                                    <h6 class="mb-1 fw-semibold text-dark text-truncate">{{ $project->title }}</h6>
+                                    <div class="d-flex flex-wrap align-items-center gap-1 mb-2">
+                                        <span class="badge 
+                                            @if($project->category === 'Web Development') bg-info 
+                                            @elseif($project->category === 'Mobile Development') bg-success 
+                                            @elseif($project->category === 'UI/UX Design') bg-warning 
+                                            @elseif($project->category === 'E-commerce') bg-purple
+                                            @else bg-secondary @endif 
+                                            text-white px-2 py-1 rounded-pill" style="font-size: 0.7rem;">
+                                            {{ Str::limit($project->category, 15) }}
+                                        </span>
+                                        @if($project->is_active)
+                                            <span class="badge bg-success text-white px-2 py-1 rounded-pill" style="font-size: 0.7rem;">
+                                                Active
+                                            </span>
+                                        @else
+                                            <span class="badge bg-secondary text-white px-2 py-1 rounded-pill" style="font-size: 0.7rem;">
+                                                Inactive
+                                            </span>
+                                        @endif
+                                    </div>
+                                    @if($project->client || $project->location)
+                                        <p class="text-muted mb-0 small text-truncate">
+                                            @if($project->client)
+                                                <i class="fas fa-user me-1"></i>{{ Str::limit($project->client, 20) }}
+                                            @endif
+                                            @if($project->client && $project->location) <br> @endif
+                                            @if($project->location)
+                                                <i class="fas fa-map-marker-alt me-1"></i>{{ Str::limit($project->location, 25) }}
+                                            @endif
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
 
-                            <!-- Description -->
-                            @if($project->description)
-                                <div class="mb-3">
-                                    <p class="text-muted small mb-0">{{ Str::limit($project->description, 100) }}</p>
-                                </div>
-                            @endif
-
-                            <!-- Status and Actions -->
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    @if($project->is_featured ?? false)
-                                        <span class="badge bg-warning text-white px-2 py-1 rounded-pill small">
-                                            <i class="fas fa-star me-1 text-white"></i>Featured
-                                        </span>
+                            <!-- Project Info -->
+                            <div class="mb-3">
+                                <p class="text-muted small mb-2" style="line-height: 1.4;">
+                                    {{ Str::limit($project->description, 100) }}
+                                </p>
+                                <div class="row text-center g-2">
+                                    @if($project->completion_date)
+                                        <div class="col-6">
+                                            <div class="bg-light rounded p-2">
+                                                <small class="text-muted d-block">Completed</small>
+                                                <strong class="text-dark small">{{ $project->completion_date->format('M Y') }}</strong>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($project->challenge_points && count($project->challenge_points) > 0)
+                                        <div class="col-6">
+                                            <div class="bg-light rounded p-2">
+                                                <small class="text-muted d-block">Challenges</small>
+                                                <strong class="text-dark small">{{ count($project->challenge_points) }} Points</strong>
+                                            </div>
+                                        </div>
                                     @endif
                                 </div>
-                                <div class="d-flex gap-2">
-                                    <a href="{{ route('admin.project.edit', $project->id) }}" 
-                                       class="btn btn-sm btn-primary d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3 mb-0">
-                                        <i class="fas fa-edit"></i>
-                                        <span>Edit</span>
-                                    </a>
-                                    <form action="{{ route('admin.project.destroy', $project->id) }}" 
-                                          method="POST" 
-                                          class="d-inline"
-                                          onsubmit="return confirm('Delete {{ $project->title }}?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" 
-                                                class="btn btn-sm btn-danger d-inline-flex align-items-center gap-2 px-3 py-2 rounded-3 mb-0">
-                                            <i class="fas fa-trash"></i>
-                                            <span>Delete</span>
-                                        </button>
-                                    </form>
-                                </div>
+                                @if($project->demo_url)
+                                    <div class="mt-2">
+                                        <a href="{{ $project->demo_url }}" target="_blank" class="btn btn-outline-primary btn-sm w-100">
+                                            <i class="fas fa-external-link-alt me-1"></i>View Demo
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="d-flex gap-2">
+                                <a href="{{ route('admin.project.edit', $project->id) }}" 
+                                   class="btn btn-sm btn-primary flex-fill d-inline-flex align-items-center justify-content-center gap-1 px-2 py-2 rounded-3 mb-0">
+                                    <i class="fas fa-edit"></i>
+                                    <span>Edit</span>
+                                </a>
+                                <form action="{{ route('admin.project.destroy', $project->id) }}" 
+                                      method="POST" 
+                                      class="flex-fill"
+                                      onsubmit="return confirm('Delete {{ $project->title }}?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" 
+                                            class="btn btn-sm btn-danger w-100 d-inline-flex align-items-center justify-content-center gap-1 px-2 py-2 rounded-3 mb-0">
+                                        <i class="fas fa-trash"></i>
+                                        <span>Delete</span>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

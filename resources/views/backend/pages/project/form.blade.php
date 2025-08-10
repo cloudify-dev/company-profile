@@ -13,9 +13,10 @@
 <div class="row">
     <!-- Left Column -->
     <div class="col-md-8">
+        <!-- Basic Information -->
         <div class="card shadow-sm mb-4">
             <div class="card-header">
-                <h6 class="mb-0">Project Information</h6>
+                <h6 class="mb-0">Basic Information</h6>
             </div>
             <div class="card-body pt-0">
                 <div class="form-group mb-3">
@@ -32,21 +33,39 @@
                             <label class="form-label">Category <span class="text-danger">*</span></label>
                             <select name="category" class="form-control" required>
                                 <option value="">Select Category</option>
-                                <option value="web" {{ old('category', $project->category ?? '') == 'web' ? 'selected' : '' }}>Web Development</option>
-                                <option value="mobile" {{ old('category', $project->category ?? '') == 'mobile' ? 'selected' : '' }}>Mobile App</option>
-                                <option value="desktop" {{ old('category', $project->category ?? '') == 'desktop' ? 'selected' : '' }}>Desktop Application</option>
-                                <option value="ui-ux" {{ old('category', $project->category ?? '') == 'ui-ux' ? 'selected' : '' }}>UI/UX Design</option>
-                                <option value="branding" {{ old('category', $project->category ?? '') == 'branding' ? 'selected' : '' }}>Branding</option>
-                                <option value="ecommerce" {{ old('category', $project->category ?? '') == 'ecommerce' ? 'selected' : '' }}>E-commerce</option>
+                                <option value="IT Technology" {{ old('category', $project->category ?? '') == 'IT Technology' ? 'selected' : '' }}>IT Technology</option>
+                                <option value="Web Development" {{ old('category', $project->category ?? '') == 'Web Development' ? 'selected' : '' }}>Web Development</option>
+                                <option value="Mobile App" {{ old('category', $project->category ?? '') == 'Mobile App' ? 'selected' : '' }}>Mobile App</option>
+                                <option value="UI/UX Design" {{ old('category', $project->category ?? '') == 'UI/UX Design' ? 'selected' : '' }}>UI/UX Design</option>
+                                <option value="E-commerce" {{ old('category', $project->category ?? '') == 'E-commerce' ? 'selected' : '' }}>E-commerce</option>
+                                <option value="Consulting" {{ old('category', $project->category ?? '') == 'Consulting' ? 'selected' : '' }}>Consulting</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mb-3">
                             <label class="form-label">Client Name</label>
-                            <input type="text" name="client_name" class="form-control" 
-                                   value="{{ old('client_name', $project->client_name ?? '') }}" 
+                            <input type="text" name="client" class="form-control" 
+                                   value="{{ old('client', $project->client ?? '') }}" 
                                    placeholder="Client or company name">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Location</label>
+                            <input type="text" name="location" class="form-control" 
+                                   value="{{ old('location', $project->location ?? '') }}" 
+                                   placeholder="Project location">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            <label class="form-label">Completion Date</label>
+                            <input type="date" name="completion_date" class="form-control" 
+                                value="{{ old('completion_date', $project?->completion_date ? $project->completion_date->format('Y-m-d') : '') }}">
                         </div>
                     </div>
                 </div>
@@ -59,72 +78,105 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label class="form-label">Project URL</label>
-                    <input type="url" name="project_url" class="form-control" 
-                           value="{{ old('project_url', $project->project_url ?? '') }}" 
+                    <label class="form-label">Demo URL</label>
+                    <input type="url" name="demo_url" class="form-control" 
+                           value="{{ old('demo_url', $project->demo_url ?? '') }}" 
                            placeholder="https://example.com">
                     <small class="text-muted">Live project URL (if available)</small>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label class="form-label">Technologies Used</label>
-                    <input type="text" name="technologies" class="form-control" 
-                           value="{{ old('technologies', is_array($project->technologies ?? null) ? implode(', ', $project->technologies) : '') }}" 
-                           placeholder="Laravel, Vue.js, MySQL, AWS">
-                    <small class="text-muted">Separate multiple technologies with commas</small>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label class="form-label">Project Duration</label>
-                            <input type="text" name="duration" class="form-control" 
-                                   value="{{ old('duration', $project->duration ?? '') }}" 
-                                   placeholder="3 months">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group mb-3">
-                            <label class="form-label">Budget Range</label>
-                            <select name="budget_range" class="form-control">
-                                <option value="">Select Budget Range</option>
-                                <option value="under-5k" {{ old('budget_range', $project->budget_range ?? '') == 'under-5k' ? 'selected' : '' }}>Under $5,000</option>
-                                <option value="5k-10k" {{ old('budget_range', $project->budget_range ?? '') == '5k-10k' ? 'selected' : '' }}>$5,000 - $10,000</option>
-                                <option value="10k-25k" {{ old('budget_range', $project->budget_range ?? '') == '10k-25k' ? 'selected' : '' }}>$10,000 - $25,000</option>
-                                <option value="25k-50k" {{ old('budget_range', $project->budget_range ?? '') == '25k-50k' ? 'selected' : '' }}>$25,000 - $50,000</option>
-                                <option value="above-50k" {{ old('budget_range', $project->budget_range ?? '') == 'above-50k' ? 'selected' : '' }}>Above $50,000</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Team Members (if needed) -->
-        <div class="card shadow-sm mb-4 d-none d-md-block">
+        <!-- Challenge Section -->
+        <div class="card shadow-sm mb-4">
             <div class="card-header">
-                <h6 class="mb-0">Additional Info</h6>
+                <h6 class="mb-0">Project Challenges</h6>
             </div>
             <div class="card-body pt-0">
-                <div class="row">
-                    <div class="col-12 col-md-6 form-group">
-                        <label class="form-label">Team Size</label>
-                        <select name="team_size" class="form-control">
-                            <option value="">Select Team Size</option>
-                            <option value="1" {{ old('team_size', $project->team_size ?? '') == '1' ? 'selected' : '' }}>Solo (1 person)</option>
-                            <option value="2-3" {{ old('team_size', $project->team_size ?? '') == '2-3' ? 'selected' : '' }}>Small (2-3 people)</option>
-                            <option value="4-6" {{ old('team_size', $project->team_size ?? '') == '4-6' ? 'selected' : '' }}>Medium (4-6 people)</option>
-                            <option value="7+" {{ old('team_size', $project->team_size ?? '') == '7+' ? 'selected' : '' }}>Large (7+ people)</option>
-                        </select>
-                    </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Challenge Description</label>
+                    <textarea name="challenges" class="form-control" rows="4" 
+                              placeholder="Describe the main challenges faced in this project">{{ old('challenges', $project->challenges ?? '') }}</textarea>
+                </div>
 
-                    <div class="col-12 col-md-6 form-group">
-                        <label class="form-label">Project Tags</label>
-                        <input type="text" name="tags" class="form-control" 
-                            value="{{ old('tags', $project->tags ?? '') }}" 
-                            placeholder="responsive, api, dashboard">
-                        <small class="text-muted">Separate tags with commas</small>
+                <div class="form-group mb-3">
+                    <label class="form-label">Challenge Points</label>
+                    <div id="challenge-points-container">
+                        @if($project && $project->challenge_points)
+                            @foreach($project->challenge_points as $index => $point)
+                                <div class="input-group mb-2 challenge-point-item">
+                                    <input type="text" name="challenge_points[]" class="form-control" 
+                                           value="{{ old('challenge_points.' . $index, $point) }}" 
+                                           placeholder="Enter challenge point">
+                                    <button type="button" class="btn btn-outline-danger remove-challenge-point mb-0">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="input-group mb-2 challenge-point-item">
+                                <input type="text" name="challenge_points[]" class="form-control" 
+                                       placeholder="Enter challenge point">
+                                <button type="button" class="btn btn-outline-danger remove-challenge-point">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        @endif
                     </div>
+                    <button type="button" id="add-challenge-point" class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-plus"></i> Add Challenge Point
+                    </button>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">Upload Challenge Image</label>
+                    <input type="file" name="challenge_image" class="form-control" accept="image/*">
+                    <small class="text-muted">Image for challenge section. Recommended: 311x215px, Max: 2MB</small>
+                </div>
+                @if (!empty($project->challenge_image))
+                    <div class="current-image">
+                        <label class="form-label">Current Challenge Image:</label>
+                        <img src="{{ asset('storage/' . $project->challenge_image) }}" 
+                             class="img-fluid rounded shadow-sm" 
+                             style="max-height: 150px; width: 100%; object-fit: cover;"
+                             alt="Current challenge image">
+                    </div>
+                @endif
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                <h6 class="mb-0">Project Results</h6>
+            </div>
+            <div class="card-body pt-0">
+                <div class="form-group mb-3">
+                    <label class="form-label">Results Description</label>
+                    <textarea name="results" class="form-control" rows="4" 
+                              placeholder="Describe the results and outcomes of this project">{{ old('results', $project->results ?? '') }}</textarea>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">Result Images</label>
+                    <input type="file" name="result_images[]" class="form-control" accept="image/*" multiple>
+                    <small class="text-muted">Select multiple images for project results. Recommended: 352x215px, Max: 5MB each</small>
+                    
+                    @if($project && $project->result_images)
+                        <div class="mt-3">
+                            <label class="form-label">Current Result Images:</label>
+                            <div class="row">
+                                @foreach($project->result_images as $resultImage)
+                                    <div class="col-md-6 mb-2">
+                                        <img src="{{ asset('storage/' . $resultImage) }}" 
+                                             class="img-fluid rounded shadow-sm" 
+                                             style="max-height: 150px; width: 100%; object-fit: cover;"
+                                             alt="Result image">
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -135,7 +187,7 @@
         <!-- Project Image -->
         <div class="card shadow-sm mb-4">
             <div class="card-header">
-                <h6 class="mb-0">Project Image</h6>
+                <h6 class="mb-0">Main Project Image</h6>
             </div>
             <div class="card-body pt-0">
                 <div class="form-group mb-3">
@@ -158,6 +210,71 @@
         <!-- Project Settings -->
         <div class="card shadow-sm mb-4">
             <div class="card-header">
+                <h6 class="mb-0">Brochures & Downloads</h6>
+            </div>
+            <div class="card-body pt-0">
+                <div class="form-group mb-3">
+                    <label class="form-label">PDF Brochure</label>
+                    <input type="file" name="brochure_pdf" class="form-control" accept=".pdf">
+                    <small class="text-muted">Upload PDF brochure file. Max: 10MB</small>
+                    @if (!empty($project->brochure_pdf))
+                        <div class="mt-2">
+                            <label class="form-label">Current PDF:</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fas fa-file-pdf text-danger"></i>
+                                <a href="{{ asset('storage/' . $project->brochure_pdf) }}" target="_blank" class="text-decoration-none">
+                                    {{ basename($project->brochure_pdf) }}
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">DOC Brochure</label>
+                    <input type="file" name="brochure_doc" class="form-control" accept=".doc,.docx">
+                    <small class="text-muted">Upload DOC/DOCX brochure file. Max: 10MB</small>
+                    @if (!empty($project->brochure_doc))
+                        <div class="mt-2">
+                            <label class="form-label">Current DOC:</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fas fa-file-word text-primary"></i>
+                                <a href="{{ asset('storage/' . $project->brochure_doc) }}" target="_blank" class="text-decoration-none">
+                                    {{ basename($project->brochure_doc) }}
+                                </a>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+
+        <!-- Help Banner -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
+                <h6 class="mb-0">Help Banner Image</h6>
+            </div>
+            <div class="card-body pt-0">
+                <div class="form-group mb-3">
+                    <label class="form-label">Upload Banner Image</label>
+                    <input type="file" name="help_banner_image" class="form-control" accept="image/*">
+                    <small class="text-muted">"You Need Help?" section banner. Recommended: 391x467px, Max: 2MB</small>
+                </div>
+                @if (!empty($project->help_banner_image))
+                    <div class="current-image">
+                        <label class="form-label">Current Banner:</label>
+                        <img src="{{ asset('storage/' . $project->help_banner_image) }}" 
+                             class="img-fluid rounded shadow-sm" 
+                             style="max-height: 150px; width: 100%; object-fit: cover;"
+                             alt="Current help banner image">
+                    </div>
+                @endif
+            </div>
+        </div>
+
+        <!-- Project Settings -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">
                 <h6 class="mb-0">Project Settings</h6>
             </div>
             <div class="card-body pt-0">
@@ -170,12 +287,6 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label class="form-label">Completion Date</label>
-                    <input type="date" name="completion_date" class="form-control" 
-                           value="{{ old('completion_date', $project->completion_date ?? '') }}">
-                </div>
-
-                <div class="form-group mb-3">
                     <div class="form-check form-switch">
                         <input type="hidden" name="is_active" value="0">
                         <input class="form-check-input" type="checkbox" name="is_active" value="1"
@@ -185,34 +296,35 @@
                 </div>
             </div>
         </div>
-
-        <!-- Team Members (if needed) -->
-        <div class="card shadow-sm mb-4 d-block d-md-none">
-            <div class="card-header">
-                <h6 class="mb-0">Additional Info</h6>
-            </div>
-            <div class="card-body pt-0">
-                <div class="row">
-                    <div class="col-12 col-md-6 form-group">
-                        <label class="form-label">Team Size</label>
-                        <select name="team_size" class="form-control">
-                            <option value="">Select Team Size</option>
-                            <option value="1" {{ old('team_size', $project->team_size ?? '') == '1' ? 'selected' : '' }}>Solo (1 person)</option>
-                            <option value="2-3" {{ old('team_size', $project->team_size ?? '') == '2-3' ? 'selected' : '' }}>Small (2-3 people)</option>
-                            <option value="4-6" {{ old('team_size', $project->team_size ?? '') == '4-6' ? 'selected' : '' }}>Medium (4-6 people)</option>
-                            <option value="7+" {{ old('team_size', $project->team_size ?? '') == '7+' ? 'selected' : '' }}>Large (7+ people)</option>
-                        </select>
-                    </div>
-
-                    <div class="col-12 col-md-6 form-group">
-                        <label class="form-label">Project Tags</label>
-                        <input type="text" name="tags" class="form-control" 
-                            value="{{ old('tags', $project->tags ?? '') }}" 
-                            placeholder="responsive, api, dashboard">
-                        <small class="text-muted">Separate tags with commas</small>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add Challenge Point
+    document.getElementById('add-challenge-point').addEventListener('click', function() {
+        const container = document.getElementById('challenge-points-container');
+        const newItem = document.createElement('div');
+        newItem.className = 'input-group mb-2 challenge-point-item';
+        newItem.innerHTML = `
+            <input type="text" name="challenge_points[]" class="form-control" placeholder="Enter challenge point">
+            <button type="button" class="btn btn-outline-danger remove-challenge-point">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        container.appendChild(newItem);
+        
+        // Add event listener to remove button
+        newItem.querySelector('.remove-challenge-point').addEventListener('click', function() {
+            newItem.remove();
+        });
+    });
+
+    // Remove Challenge Point
+    document.querySelectorAll('.remove-challenge-point').forEach(function(button) {
+        button.addEventListener('click', function() {
+            this.closest('.challenge-point-item').remove();
+        });
+    });
+});
+</script>

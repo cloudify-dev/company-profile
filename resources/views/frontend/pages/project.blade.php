@@ -56,31 +56,15 @@
                     </div>
                 </div>
                 @empty
-                <div class="col-lg-4 col-md-6">
-                    <div class="project-card">
-                        <div class="project-img">
-                            <div class="d-flex flex-column align-items-center justify-content-center text-muted" 
-                                 style="width: 100%; height: 300px; background: #f8f9fa;">
-                                <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mb-3"
-                                     style="width: 60px; height: 60px;">
-                                    <i class="fas fa-folder-open fa-lg"></i>
-                                </div>
-                                <h6 class="text-muted fw-semibold mb-1 text-center">No Projects</h6>
-                                <span class="text-muted small text-center">Coming Soon</span>
-                            </div>
+                <div class="col-12">
+                    <div class="d-flex flex-column align-items-center justify-content-center text-muted" 
+                            style="width: 100%; height: 300px;">
+                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center mb-3"
+                                style="width: 60px; height: 60px;">
+                            <i class="fas fa-folder-open fa-lg"></i>
                         </div>
-                        <div class="project-content-wrap">
-                            <div class="project-content">
-                                <div class="box-particle"></div>
-                                <h3 class="box-title">
-                                    <a href="#">No Projects Available</a>
-                                </h3>
-                                <p class="project-subtitle">Coming Soon</p>
-                                <a href="#" class="icon-btn">
-                                    <i class="far fa-plus"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <h6 class="text-muted fw-semibold mb-1 text-center">No Projects</h6>
+                        <span class="text-muted small text-center">Coming Soon</span>
                     </div>
                 </div>
                 @endforelse

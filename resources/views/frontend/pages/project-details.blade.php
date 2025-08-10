@@ -8,10 +8,7 @@
             : 'assets_frontend/assets/img/bg/breadcumb-bg.jpg',
         'breadcrumb' => [['url' => route('project'), 'label' => 'Home'], ['label' => 'Project Details']],
     ])
-    
-    <!--==============================
-    Project Area
-    ==============================-->
+
     <section class="space-top space-extra-bottom">
         <div class="container">
             <div class="row">
@@ -32,22 +29,26 @@
                                 <h3 class="box-title">The challenge of project</h3>
                                 <p class="">{{ $project->challenges ?: 'Authoritatively scale business meta-services before client-based technologies. Collaboratively strategize synergistic scenarios rather than flexible action items. Continually deliver market positioning convergence and mission-critical infrastructures.' }}</p>
                                 <div class="row gy-4 align-items-center">
-                                    <div class="col-md-5">
-                                        @if($project->challenge_image && file_exists(public_path('storage/' . $project->challenge_image)))
+                                    @if($project->challenge_image && file_exists(public_path('storage/' . $project->challenge_image)))
+                                        <div class="col-md-5">
                                             <img class="w-100 rounded-3" src="{{ asset('storage/' . $project->challenge_image) }}" alt="project">
-                                        @else
-                                            <img class="w-100 rounded-3" src="{{ asset('assets_frontend/assets/img/project/project_inner_1.jpg') }}" alt="project">
-                                        @endif
-                                    </div>
+                                        </div>
+                                    @endif
                                     <div class="col-md-7">
                                         <div class="checklist">
                                             <ul>
-                                                <li><i class="fas fa-badge-check"></i> {{ $project->challenge_1 ?: 'It is a long established fact that reader will' }}</li>
-                                                <li><i class="fas fa-badge-check"></i> {{ $project->challenge_2 ?: 'There are many variations of passages' }}</li>
-                                                <li><i class="fas fa-badge-check"></i> {{ $project->challenge_3 ?: 'All the Lorem Ipsum generators' }}</li>
-                                                <li><i class="fas fa-badge-check"></i> {{ $project->challenge_4 ?: 'Asearch for \'lorem ipsum\' will uncover many' }}</li>
-                                                <li><i class="fas fa-badge-check"></i> {{ $project->challenge_5 ?: 'injected humour words which' }}</li>
-                                                <li><i class="fas fa-badge-check"></i> {{ $project->challenge_6 ?: 'There are many variations of passages of' }}</li>
+                                                @if($project->challenge_points && count($project->challenge_points) > 0)
+                                                    @foreach($project->challenge_points as $point)
+                                                        <li><i class="fas fa-badge-check"></i> {{ $point }}</li>
+                                                    @endforeach
+                                                @else
+                                                    <li><i class="fas fa-badge-check"></i> It is a long established fact that reader will</li>
+                                                    <li><i class="fas fa-badge-check"></i> There are many variations of passages</li>
+                                                    <li><i class="fas fa-badge-check"></i> All the Lorem Ipsum generators</li>
+                                                    <li><i class="fas fa-badge-check"></i> Asearch for 'lorem ipsum' will uncover many</li>
+                                                    <li><i class="fas fa-badge-check"></i> injected humour words which</li>
+                                                    <li><i class="fas fa-badge-check"></i> There are many variations of passages of</li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </div>
@@ -58,20 +59,20 @@
                                 <h3 class="box-title">The result of project</h3>
                                 <p class="mb-3">{{ $project->results ?: 'Objectively utilize client-based e-service after corporate niche markets. Dynamically morph compelling channels vis-a-vis multifunctional interfaces. Credibly administrate wireless opportunities after B2B materials. Phosfluorescently engineer flexible "outside the box" thinking through process-centric web services. Progressively target multidisciplinary.' }}</p>
                                 <div class="row gy-4 align-items-center">
-                                    <div class="col-md-6">
-                                        @if($project->result_image_1 && file_exists(public_path('storage/' . $project->result_image_1)))
-                                            <img class="w-100 rounded-3" src="{{ asset('storage/' . $project->result_image_1) }}" alt="project">
-                                        @else
+                                    @if($project->result_images && count($project->result_images) > 0)
+                                        @foreach($project->result_images as $index => $resultImage)
+                                            <div class="col-md-6">
+                                                <img class="w-100 rounded-3" src="{{ asset('storage/' . $resultImage) }}" alt="project">
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div class="col-md-6">
                                             <img class="w-100 rounded-3" src="{{ asset('assets_frontend/assets/img/project/project_inner_2.jpg') }}" alt="project">
-                                        @endif
-                                    </div>
-                                    <div class="col-md-6">
-                                        @if($project->result_image_2 && file_exists(public_path('storage/' . $project->result_image_2)))
-                                            <img class="w-100 rounded-3" src="{{ asset('storage/' . $project->result_image_2) }}" alt="project">
-                                        @else
+                                        </div>
+                                        <div class="col-md-6">
                                             <img class="w-100 rounded-3" src="{{ asset('assets_frontend/assets/img/project/project_inner_3.jpg') }}" alt="project">
-                                        @endif
-                                    </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -123,11 +124,32 @@
                         <div class="widget widget_download">
                             <h4 class="widget_title">Download Brochure</h4>
                             <div class="download-widget-wrap">
-                                <a href="#" class="th-btn"><i class="fa-light fa-file-pdf me-2"></i>DOWNLOAD PDF</a>
-                                <a href="#" class="th-btn style5"><i class="fa-light fa-file-lines me-2"></i>DOWNLOAD DOC</a>
+                                @if($project->brochure_pdf)
+                                    <a href="{{ asset('storage/' . $project->brochure_pdf) }}" target="_blank" class="th-btn">
+                                        <i class="fa-light fa-file-pdf me-2"></i>DOWNLOAD PDF
+                                    </a>
+                                @else
+                                    <a href="#" class="th-btn disabled" style="opacity: 0.5; pointer-events: none;">
+                                        <i class="fa-light fa-file-pdf me-2"></i>PDF NOT AVAILABLE
+                                    </a>
+                                @endif
+                                @if($project->brochure_doc)
+                                    <a href="{{ asset('storage/' . $project->brochure_doc) }}" target="_blank" class="th-btn style5">
+                                        <i class="fa-light fa-file-lines me-2"></i>DOWNLOAD DOC
+                                    </a>
+                                @else
+                                    <a href="#" class="th-btn style5 disabled" style="opacity: 0.5; pointer-events: none;">
+                                        <i class="fa-light fa-file-lines me-2"></i>DOC NOT AVAILABLE
+                                    </a>
+                                @endif
                             </div>
                         </div>
-                        <div class="widget widget_banner" data-bg-src="{{ asset('assets_frontend/assets/img/bg/widget_banner.jpg') }}">
+                        <div class="widget widget_banner" 
+                             @if($project->help_banner_image && file_exists(public_path('storage/' . $project->help_banner_image)))
+                                data-bg-src="{{ asset('storage/' . $project->help_banner_image) }}"
+                             @else
+                                data-bg-src="{{ asset('assets_frontend/assets/img/bg/widget_banner.jpg') }}"
+                             @endif>
                             <div class="widget-banner">
                                 <span class="text">CONTACT US NOW</span>
                                 <h2 class="title">You Need Help?</h2>

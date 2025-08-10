@@ -22,8 +22,10 @@ class Project extends Model
         'challenge_image',
         'challenge_points',
         'results',
-        'result_image_1',
-        'result_image_2',
+        'result_images',
+        'brochure_pdf',
+        'brochure_doc',
+        'help_banner_image',
         'is_active',
         'featured',
         'sort_order',
@@ -33,6 +35,7 @@ class Project extends Model
         'is_active' => 'boolean',
         'featured' => 'boolean',
         'challenge_points' => 'array',
+        'result_images' => 'array',
         'completion_date' => 'date',
     ];
 

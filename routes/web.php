@@ -16,6 +16,7 @@ use App\Http\Controllers\Frontend\TeamController as FrontendTeamController;
 use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\Frontend\AboutController;
 use App\Http\Controllers\Frontend\FaqController;
+use App\Http\Controllers\Frontend\ContactController;
 use App\Models\AboutUsPage;
 
 // LANDING PAGE (INERTIA DEFAULT)
@@ -92,6 +93,9 @@ Route::get('/team/{id}', [FrontendTeamController::class, 'show'])->name('fronten
 // FAQ (FRONTEND)
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 
+// CONTACT (FRONTEND)
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+
 // BACKEND DASHBOARD
 Route::get('/dashboard', function () {
     return view('backend.pages.dashboard');
@@ -142,4 +146,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // FAQ routes
     Route::resource('faq', \App\Http\Controllers\Admin\FAQController::class);
+    
+    // Contact Settings routes
+    Route::resource('contact-settings', \App\Http\Controllers\Admin\ContactSettingController::class);
 });

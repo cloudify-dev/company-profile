@@ -14,7 +14,7 @@ class FaqController extends Controller
         $pageSettings = PageSetting::where('page_name', 'faq')->first();
         
         // Get FAQs grouped by category
-        $faqs = Faq::active()->ordered()->get()->groupBy('category');
+        $faqs = Faq::active()->ordered()->get();
         
         return view('frontend.pages.faq', compact('pageSettings', 'faqs'));
     }
