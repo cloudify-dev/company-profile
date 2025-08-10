@@ -1,0 +1,13 @@
+@extends('backend')
+@section('content')
+    <div class="card mb-4">
+        <div class="card-header justify-content-between align-items-center">
+            <h4>Add Blog</h4>
+            <form action="{{ route('admin.blog.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @include('backend.pages.blog.form')
+                <button class="btn btn-primary mt-2">Save</button>
+            </form>
+        </div>
+    </div>
+@endsection

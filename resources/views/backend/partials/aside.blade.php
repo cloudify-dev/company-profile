@@ -153,6 +153,37 @@
                     </ul>
                 </div>
             </li>
+            <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#blogMenu" class="nav-link" aria-expanded="false">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-briefcase-24 text-dark text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Blog</span>
+                </a>
+                <div class="collapse" id="blogMenu">
+                    <ul class="nav ms-4">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('admin/blogCategory') }}">
+                                <span class="sidenav-mini-icon">C</span>
+                                <span class="sidenav-normal">Blog Category</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('admin/blog') }}">
+                                <span class="sidenav-mini-icon">B</span>
+                                <span class="sidenav-normal">Blog</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url('admin/blog-hero') }}">
+                                <span class="sidenav-mini-icon">H</span>
+                                <span class="sidenav-normal">Blog Hero</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
             </li>
