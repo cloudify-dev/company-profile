@@ -16,6 +16,8 @@ use App\Http\Controllers\Frontend\TeamController as FrontendTeamController;
 use App\Http\Controllers\Frontend\ServiceController;
 use App\Http\Controllers\Frontend\AboutController;
 use App\Http\Controllers\Frontend\BlogController;
+use App\Http\Controllers\Frontend\FaqController;
+use App\Http\Controllers\Frontend\ContactController;
 use App\Models\AboutUsPage;
 
 // LANDING PAGE (INERTIA DEFAULT)
@@ -68,7 +70,8 @@ Route::get('/', function () {
     $about = AboutUsPage::where('is_active', true)->first();
     $teams = Team::latest()->take(8)->get();
     $projects = \App\Models\Project::latest()->take(9)->get(); // ambil max 9 project
-    return view('frontend.pages.index', compact('slides', 'services', 'teams', 'projects', 'about'));
+    $achievements = \App\Models\Achievement::where('is_active', true)->ordered()->get(); // independent achievements
+    return view('frontend.pages.index', compact('slides', 'services', 'teams', 'projects', 'about', 'achievements'));
 });
 
 // ABOUT (FRONTEND)
@@ -77,7 +80,7 @@ Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 // PROJECT (FRONTEND)
-Route::get('/project', [ProjectController::class, 'index'])->name('project.index');
+Route::get('/project', [ProjectController::class, 'index'])->name('project');
 Route::get('/project/{id}', [ProjectController::class, 'details'])->name('project.details');
 
 // SERVICE (FRONTEND)
@@ -86,11 +89,14 @@ Route::get('/service', [ServiceController::class, 'index'])->name('services.list
 Route::get('/service-details/{id}', [ServiceController::class, 'show'])->name('service.details');
 
 // TEAM (FRONTEND)
-Route::get('/team', [FrontendTeamController::class, 'index'])->name('frontend.team.index');
-Route::get('/team-details', function () {
-    return view('frontend.pages.team-details');
-});
-Route::get('/team-details/{id}', [FrontendTeamController::class, 'show'])->name('frontend.team.details');
+Route::get('/team', [FrontendTeamController::class, 'index'])->name('frontend.team');
+Route::get('/team/{id}', [FrontendTeamController::class, 'show'])->name('frontend.team.details');
+
+// FAQ (FRONTEND)
+Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+
+// CONTACT (FRONTEND)
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 
 // BACKEND DASHBOARD
 Route::get('/dashboard', function () {
@@ -134,14 +140,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('about/{about}/features/{feature}', 'updateFeature')->name('about.features.update');
         Route::delete('about/{about}/features/{feature}', 'destroyFeature')->name('about.features.destroy');
         Route::patch('about/{about}/features/{feature}/toggle', 'toggleFeature')->name('about.features.toggle');
-        
-        // About Achievements Routes
-        Route::get('about/{about}/achievements', 'achievements')->name('about.achievements');
-        Route::get('about/{about}/achievements/create', 'createAchievement')->name('about.achievements.create');
-        Route::post('about/{about}/achievements', 'storeAchievement')->name('about.achievements.store');
-        Route::get('about/{about}/achievements/{achievement}/edit', 'editAchievement')->name('about.achievements.edit');
-        Route::put('about/{about}/achievements/{achievement}', 'updateAchievement')->name('about.achievements.update');
-        Route::delete('about/{about}/achievements/{achievement}', 'destroyAchievement')->name('about.achievements.destroy');
-        Route::patch('about/{about}/achievements/{achievement}/toggle', 'toggleAchievement')->name('about.achievements.toggle');
     });
+
+    // Independent Achievement routes
+    Route::resource('achievements', \App\Http\Controllers\Admin\AchievementController::class);
+    Route::controller(\App\Http\Controllers\Admin\AchievementController::class)->group(function () {
+        Route::patch('achievements/{achievement}/toggle', 'toggle')->name('achievements.toggle');
+    });
+
+    // FAQ routes
+    Route::resource('faq', \App\Http\Controllers\Admin\FAQController::class);
+    
+    // Contact Settings routes
+    Route::resource('contact-settings', \App\Http\Controllers\Admin\ContactSettingController::class);
 });

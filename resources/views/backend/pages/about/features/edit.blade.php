@@ -12,20 +12,11 @@
                 
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="icon_path" class="form-label">Icon Path <span class="text-danger">*</span></label>
-                            <input type="text" 
-                                   class="form-control @error('icon_path') is-invalid @enderror" 
-                                   id="icon_path" 
-                                   name="icon_path" 
-                                   value="{{ old('icon_path', $feature->icon_path) }}"
-                                   placeholder="e.g., fas fa-star, or path/to/icon.svg"
-                                   required>
-                            <small class="form-text text-muted">Enter FontAwesome class or icon file path</small>
-                            @error('icon_path')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
+                        <label>Image</label>
+                        <input type="file" name="image" class="form-control">
+                        @if (!empty($feature->image))
+                            <img src="{{ asset('storage/' . $feature->image) }}" width="100" class="mt-2">
+                        @endif
                     </div>
                     
                     <div class="col-md-6">

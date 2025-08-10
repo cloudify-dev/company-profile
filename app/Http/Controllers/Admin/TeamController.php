@@ -9,13 +9,33 @@ use Illuminate\Support\Facades\Storage;
 
 class TeamController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $teams = Team::all();
-        return view('backend.pages.team.index', compact('teams'));
-    }
+        $query = Team::query();
+        
+        // Get search and filter parameters
+        $search = $request->get('search');
+        $status = $request->get('status');
 
-    public function create()
+        // Apply search and filters
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('position', 'like', "%{$search}%")
+                  ->orWhere('company', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        if ($status !== null) {
+            $query->where('is_active', $status === 'active');
+        }
+
+        // Get paginated results
+        $teams = $query->ordered()->paginate(10)->withQueryString();
+
+        return view('backend.pages.team.index', compact('teams'));
+    }    public function create()
     {
         return view('backend.pages.team.create');
     }
@@ -25,15 +45,31 @@ class TeamController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'position' => 'required|string',
+            'company' => 'nullable|string',
             'bio' => 'nullable|string',
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
             'availability' => 'nullable|string',
+            'experience' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
             'facebook' => 'nullable|url',
             'twitter' => 'nullable|url',
             'instagram' => 'nullable|url',
             'linkedin' => 'nullable|url',
+            'personal_biography' => 'nullable|string',
+            'professional_skills_description' => 'nullable|string',
+            'skills' => 'nullable|array',
+            'skills.*.name' => 'required|string',
+            'skills.*.percentage' => 'required|integer|min:0|max:100',
+            'activities_description' => 'nullable|string',
+            'activities_list' => 'nullable|array',
+            'activities_list.*' => 'string',
+            'educational_qualification' => 'nullable|string',
+            'experience_timeline' => 'nullable|array',
+            'experience_timeline.*.position' => 'required|string',
+            'experience_timeline.*.company' => 'required|string',
+            'experience_timeline.*.period' => 'required|string',
+            'experience_timeline.*.order' => 'required|integer',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer'
         ]);
@@ -60,15 +96,31 @@ class TeamController extends Controller
         $data = $request->validate([
             'name' => 'required|string',
             'position' => 'required|string',
+            'company' => 'nullable|string',
             'bio' => 'nullable|string',
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
             'availability' => 'nullable|string',
+            'experience' => 'nullable|string',
             'image' => 'nullable|image|max:2048',
             'facebook' => 'nullable|url',
             'twitter' => 'nullable|url',
             'instagram' => 'nullable|url',
             'linkedin' => 'nullable|url',
+            'personal_biography' => 'nullable|string',
+            'professional_skills_description' => 'nullable|string',
+            'skills' => 'nullable|array',
+            'skills.*.name' => 'required|string',
+            'skills.*.percentage' => 'required|integer|min:0|max:100',
+            'activities_description' => 'nullable|string',
+            'activities_list' => 'nullable|array',
+            'activities_list.*' => 'string',
+            'educational_qualification' => 'nullable|string',
+            'experience_timeline' => 'nullable|array',
+            'experience_timeline.*.position' => 'required|string',
+            'experience_timeline.*.company' => 'required|string',
+            'experience_timeline.*.period' => 'required|string',
+            'experience_timeline.*.order' => 'required|integer',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer'
         ]);

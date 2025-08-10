@@ -31,25 +31,12 @@ class AboutUsPage extends Model
         return $this->hasMany(AboutFeature::class, 'about_id');
     }
 
-    public function achievements(): HasMany
-    {
-        return $this->hasMany(AboutAchievement::class, 'about_id');
-    }
-
     /**
      * Get only active features in order
      */
     public function activeFeatures(): HasMany
     {
         return $this->features()->active()->ordered();
-    }
-
-    /**
-     * Get only active achievements in order
-     */
-    public function activeAchievements(): HasMany
-    {
-        return $this->achievements()->active()->ordered();
     }
 
     /**

@@ -3,12 +3,11 @@
     <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center">
             <div>
-                <h6 class="mb-0">About Achievements for: {{ $about->title_black }} {{ $about->title_blue }}</h6>
-                <small class="text-muted">Manage dynamic achievements for this about page</small>
+                <h6 class="mb-0">Achievements Management</h6>
+                <small class="text-muted">Manage all achievements that can be displayed on the website</small>
             </div>
             <div>
-                <a href="{{ route('admin.about.index') }}" class="btn btn-secondary btn-sm me-2">Back to About Pages</a>
-                <a href="{{ route('admin.about.achievements.create', $about->id) }}" class="btn btn-primary btn-sm">Add Achievement</a>
+                <a href="{{ route('admin.achievements.create') }}" class="btn btn-primary btn-sm">Add Achievement</a>
             </div>
         </div>
         <div class="card-body p-0">
@@ -44,15 +43,15 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.about.achievements.edit', [$about->id, $achievement->id]) }}" class="btn btn-sm btn-info">Edit</a>
-                                    <form action="{{ route('admin.about.achievements.destroy', [$about->id, $achievement->id]) }}" method="POST" style="display:inline-block">
+                                    <a href="{{ route('admin.achievements.edit', $achievement->id) }}" class="btn btn-sm btn-info">Edit</a>
+                                    <form action="{{ route('admin.achievements.destroy', $achievement->id) }}" method="POST" style="display:inline-block">
                                         @csrf 
                                         @method('DELETE')
                                         <button onclick="return confirm('Delete this achievement?')" class="btn btn-sm btn-danger">Delete</button>
                                     </form>
                                 </td>
                                 <td>
-                                    <form action="{{ route('admin.about.achievements.toggle', [$about->id, $achievement->id]) }}" method="POST" style="display:inline;">
+                                    <form action="{{ route('admin.achievements.toggle', $achievement->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('PATCH')
                                         <label class="switch">
@@ -71,8 +70,8 @@
                         <i class="fas fa-trophy fa-3x text-muted"></i>
                     </div>
                     <h5 class="text-muted">No Achievements Found</h5>
-                    <p class="text-muted">Start by adding dynamic achievements for this about page.</p>
-                    <a href="{{ route('admin.about.achievements.create', $about->id) }}" class="btn btn-primary">Add First Achievement</a>
+                    <p class="text-muted">Start by adding achievements that can be displayed on your website.</p>
+                    <a href="{{ route('admin.achievements.create') }}" class="btn btn-primary">Add First Achievement</a>
                 </div>
             @endif
         </div>

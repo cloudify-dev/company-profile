@@ -3,14 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class AboutAchievement extends Model
+class Achievement extends Model
 {
-    protected $table = 'about_achievements';
+    protected $table = 'achievements';
 
     protected $fillable = [
-        'about_id',
         'achievement_value',
         'achievement_unit',
         'achievement_description',
@@ -22,14 +20,6 @@ class AboutAchievement extends Model
         'is_active' => 'boolean',
         'sort_order' => 'integer'
     ];
-
-    /**
-     * Get the about us page that owns this achievement
-     */
-    public function aboutUsPage(): BelongsTo
-    {
-        return $this->belongsTo(AboutUsPage::class, 'about_id');
-    }
 
     /**
      * Scope for active achievements

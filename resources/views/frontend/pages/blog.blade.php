@@ -30,53 +30,34 @@
          <div class="row">
              <!-- Main Content -->
              <div class="col-lg-8">
-                 <!-- Blog Post 1 -->
-                 <div class="card shadow-sm mb-3">
+                 @foreach ($blogs as $index => $item)
+                 <div class="card border-0 shadow-sm mb-3">
                      <div class="position-relative">
                          <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500&h=300&fit=crop" class="card-img-top" alt="Blog Post">
                      </div>
                      <div class="card-body">
                          <div class="blog-meta mb-3">
-                             <span><i class="far fa-user"></i> By Admin</span>
-                             <span class="mx-3"><i class="far fa-calendar-alt"></i> 10 June, 2023</span>
-                             <span><i class="far fa-comment"></i> 3 Comments</span>
+                             <span><i class="far fa-user"></i> {{$item->author}}</span>
+                             <span class="mx-3"><i class="far fa-calendar-alt"></i>{{ $item->created_at->format('y/m/d') }}</span>
+                             <span><i class="far fa-comment"></i> {{$item->blogComments ? $item->blogComments->count() : 0}} Comments</span>
                          </div>
-                         <h3 class="card-title mb-3">How Technology Can Help Small Business Owners</h3>
-                         <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                         <h3 class="card-title mb-3">{{$item->title}}</h3>
+                         <p class="card-text">{{ \Illuminate\Support\Str::limit(strip_tags($item->description), 100) }}</p>
                          <a href="#" class="btn btn-primary">Read More</a>
                      </div>
                  </div>
-
-                 <!-- Blog Post 2 -->
-                 <div class="card shadow-sm">
-                     <div class="position-relative">
-                         <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&h=300&fit=crop" class="card-img-top" alt="Blog Post">
-                     </div>
-                     <div class="card-body">
-                         <div class="blog-meta mb-3">
-                             <span><i class="far fa-user"></i> By Admin</span>
-                             <span class="mx-3"><i class="far fa-calendar-alt"></i> 15 June, 2023</span>
-                             <span><i class="far fa-comment"></i> 5 Comments</span>
-                         </div>
-                         <h3 class="card-title mb-3">Digital Marketing Strategies for 2023</h3>
-                         <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                         <a href="#" class="btn btn-primary">Read More</a>
-                     </div>
-                 </div>
+                 @endforeach
 
                  <!-- Pagination -->
                  <nav aria-label="Page navigation">
-                     <ul class="pagination justify-content-center mt-4">
-                         <li class="page-item disabled">
-                             <a class="page-link" href="#" tabindex="-1">Previous</a>
-                         </li>
-                         <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                         <li class="page-item"><a class="page-link" href="#">2</a></li>
-                         <li class="page-item"><a class="page-link" href="#">3</a></li>
-                         <li class="page-item">
-                             <a class="page-link" href="#">Next</a>
-                         </li>
-                     </ul>
+                     <div class="d-flex justify-content-between align-items-center mt-4">
+                         <div>
+                             Showing {{ $blogs->firstItem() }} to {{ $blogs->lastItem() }} of {{ $blogs->total() }} results
+                         </div>
+                         <div>
+                             {{ $blogs->links('custom.pagination') }}
+                         </div>
+                     </div>
                  </nav>
              </div>
 
@@ -107,57 +88,45 @@
                  <!-- Recent Posts Widget -->
                  <div class="card border-0 p-4 shadow-sm mb-3" style="background-color:rgba(151, 150, 150, 0.18);">
                      <h4 class="fs-4">Recent Posts</h4>
+                     @foreach ($recentPosts as $index => $item)
                      <div class="d-flex mb-3">
                          <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500&h=300&fit=crop" alt="Post" width="80" class="object-fit-cover rounded me-3">
                          <div>
-                             <h6 class="mb-1 lh-1"><a href="#" class="text-decoration-none fs-5">How Technology Can Help Business</a></h6>
-                             <span class="text-muted small"><i class="far fa-calendar-alt me-1"></i> 10 June, 2023</span>
+                             <h6 class="mb-1 lh-1"><a href="#" class="text-decoration-none fs-5">{{$item->title}}</a></h6>
+                             <span class="text-muted small"><i class="far fa-calendar-alt me-1"></i>{{$item->created_at->format('y/m/d')}}</span>
                          </div>
                      </div>
-                     <div class="d-flex mb-3">
-                         <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500&h=300&fit=crop" alt="Post" width="80" class="object-fit-cover rounded me-3">
-                         <div>
-                             <h6 class="mb-1 lh-1"><a href="#" class="text-decoration-none fs-5">Digital Marketing Strategies</a></h6>
-                             <span class="text-muted small"><i class="far fa-calendar-alt me-1"></i> 15 June, 2023</span>
-                         </div>
-                     </div>
-                     <div class="d-flex">
-                         <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=500&h=300&fit=crop" alt="Post" width="80" class="object-fit-cover rounded me-3">
-                         <div>
-                             <h6 class="mb-1 lh-1"><a href="#" class="text-decoration-none fs-5">Best IT Solutions for Business</a></h6>
-                             <span class="text-muted small"><i class="far fa-calendar-alt me-1"></i> 20 June, 2023</span>
-                         </div>
-                     </div>
+                     @endforeach
                  </div>
 
                  <!-- Tags Widget -->
                  <div class="card border-0 p-4 shadow-sm mb-3" style="background-color:rgba(151, 150, 150, 0.18);">
                      <h4 class="">Popular Tags</h4>
                      <div class="d-flex flex-wrap gap-2">
-                        <span class="bg-white rounded-1 p-3 shadow-sm">
-                            <a href="#">Technology</a>
-                        </span>
-                        <span class="bg-white rounded-1 p-3 shadow-sm">
-                            <a href="#">IT</a>
-                        </span>
-                        <span class="bg-white rounded-1 p-3 shadow-sm">
-                            <a href="#">Business</a>
-                        </span>
-                        <span class="bg-white rounded-1 p-3 shadow-sm">
-                            <a href="#">Marketing</a>
-                        </span>
-                        <span class="bg-white rounded-1 p-3 shadow-sm">
-                            <a href="#">Web</a>
-                        </span>
-                        <span class="bg-white rounded-1 p-3 shadow-sm">
-                            <a href="#">Design</a>
-                        </span>
-                        <span class="bg-white rounded-1 p-3 shadow-sm">
-                            <a href="#">Development</a>
-                        </span>
-                        <span class="bg-white rounded-1 p-3 shadow-sm">
-                            <a href="#">Solutions</a>
-                        </span>
+                         <span class="bg-white rounded-1 p-3 shadow-sm">
+                             <a href="#">Technology</a>
+                         </span>
+                         <span class="bg-white rounded-1 p-3 shadow-sm">
+                             <a href="#">IT</a>
+                         </span>
+                         <span class="bg-white rounded-1 p-3 shadow-sm">
+                             <a href="#">Business</a>
+                         </span>
+                         <span class="bg-white rounded-1 p-3 shadow-sm">
+                             <a href="#">Marketing</a>
+                         </span>
+                         <span class="bg-white rounded-1 p-3 shadow-sm">
+                             <a href="#">Web</a>
+                         </span>
+                         <span class="bg-white rounded-1 p-3 shadow-sm">
+                             <a href="#">Design</a>
+                         </span>
+                         <span class="bg-white rounded-1 p-3 shadow-sm">
+                             <a href="#">Development</a>
+                         </span>
+                         <span class="bg-white rounded-1 p-3 shadow-sm">
+                             <a href="#">Solutions</a>
+                         </span>
                      </div>
                  </div>
              </div>

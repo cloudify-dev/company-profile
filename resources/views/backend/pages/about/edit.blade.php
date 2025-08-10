@@ -65,7 +65,6 @@
 
                 <div class="mb-3">
                     <a href="{{ route('admin.about.features', $about->id) }}" class="btn btn-sm btn-warning me-2">Update Features</a>
-                    <a href="{{ route('admin.about.achievements', $about->id) }}" class="btn btn-sm btn-info">Update Achievements</a>
                 </div>
 
                 <div class="d-flex justify-content-between">

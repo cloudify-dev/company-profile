@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Achievement;
 use App\Models\Team;
 use App\Models\Testimonial;
 use App\Models\AboutUsPage;
@@ -18,25 +18,31 @@ class AboutController extends Controller
         $testimonials = Testimonial::where('is_active', true)->ordered()->get();
         
         // Get about page with relationships
-        $about = AboutUsPage::with(['features' => function($query) {
-            $query->where('is_active', true)->ordered();
-        }, 'achievements' => function($query) {
-            $query->where('is_active', true)->ordered();
-        }])->where('is_active', true)->first();
-        
-        // Fallback if no active about page exists
-        if (!$about) {
-            $about = AboutUsPage::with(['features' => function($query) {
-                $query->where('is_active', true)->ordered();
-            }, 'achievements' => function($query) {
-                $query->where('is_active', true)->ordered();
-            }])->first();
-        }
+        $about = AboutUsPage::with(
+            [
+                'features' => function($query) {
+                    $query->where('is_active', true)->ordered();
+                }
+            ]
+        )->where('is_active', true)->first();
+
+        // // Fallback if no active about page exists
+        // if (!$about) {
+        //     $about = AboutUsPage::with(['features' => function($query) {
+        //         $query->where('is_active', true)->ordered();
+        //     }, 'achievements' => function($query) {
+        //         $query->where('is_active', true)->ordered();
+        //     }])->first();
+        // }
         
         // Get section titles
+        $achievements = Achievement::where('is_active', true)
+            ->orderBy('sort_order', 'asc')
+            ->get();
         $teamTitle = SectionTitle::getForSection('team');
         $testimonialTitle = SectionTitle::getForSection('testimonial');
-        
-        return view('frontend.pages.about', compact('teams', 'testimonials', 'about', 'teamTitle', 'testimonialTitle'));
+        $achievementsTitle = SectionTitle::getForSection('achievements');
+
+        return view('frontend.pages.about', compact('teams', 'testimonials', 'about', 'teamTitle', 'testimonialTitle', 'achievementsTitle', 'achievements'));
     }
 }

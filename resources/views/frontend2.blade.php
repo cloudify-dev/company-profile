@@ -68,6 +68,8 @@
     <link rel="stylesheet" href="{{ asset('assets_frontend/assets/css/swiper-bundle.min.css') }}">
     <!-- Theme Custom CSS -->
     <link rel="stylesheet" href="{{ asset('assets_frontend/assets/css/style.css') }}">
+
+    @stack('styles')
 </head>
 
 

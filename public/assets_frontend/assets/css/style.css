@@ -2797,7 +2797,7 @@ hr.title-line {
           flex: 1;
 }
 
-.badge {
+/* .badge {
   position: absolute;
   width: -webkit-fit-content;
   width: -moz-fit-content;
@@ -2814,7 +2814,7 @@ hr.title-line {
   font-weight: 400;
   -webkit-transition: 0.3s ease-in-out;
   transition: 0.3s ease-in-out;
-}
+} */
 
 .th-social a {
   display: inline-block;

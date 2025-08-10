@@ -11,10 +11,11 @@ class AboutFeature extends Model
 
     protected $fillable = [
         'about_id',
-        'icon_path',
+        'image',
         'title',
         'description',
         'sort_order',
+        'image',
         'is_active'
     ];
 

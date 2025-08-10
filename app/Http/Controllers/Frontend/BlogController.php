@@ -18,22 +18,22 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $blogs = Blog::latest()->get();
+        // $blogs = Blog::latest()->get();
+        $blogs = Blog::with(['blogQuote', 'blogTags', 'blogComments'])
+            ->latest()
+            ->paginate(5);
         $blogCategory = BlogCategory::latest()->get();
-        // $testimonials = Testimonial::where('is_active', true)->ordered()->get();
-        // $tags = Tag::latest()->get();
         $blogPage = BlogPage::where('is_active', true)->first();
-        
-        // Get section titles
-        // $testimonialTitle = SectionTitle::getForSection('testimonial');
-        
+
+        $recentPosts = Blog::latest()->take(3)->get();
+
         // If no service page settings found, create default
         if (!$blogPage) {
             $blogPage = new BlogPage();
             // $blogPage->process_steps = $blogPage->getDefaultProcessSteps();
         }
-        
-        return view('frontend.pages.blog', compact('blogs', 'blogCategory', 'blogPage'));
+
+        return view('frontend.pages.blog', compact('blogs', 'blogCategory', 'blogPage', 'recentPosts'));
     }
 
     public function show($id)
@@ -41,7 +41,7 @@ class BlogController extends Controller
         $blog = Blog::findOrFail($id);
         // $testimonials = Testimonial::where('is_active', true)->ordered()->get();
         $pageSettings = PageSetting::where('page_name', 'service')->first();
-        
+
         // Get section titles
         // $testimonialTitle = SectionTitle::getForSection('testimonial');
 
