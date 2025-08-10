@@ -16,24 +16,32 @@ use App\Models\Tag;
 
 class BlogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         // $blogs = Blog::latest()->get();
-        $blogs = Blog::with(['blogQuote', 'blogTags', 'blogComments'])
-            ->latest()
-            ->paginate(5);
-        $blogCategory = BlogCategory::latest()->get();
+        $query = Blog::query();
+
+        $blogCategories = BlogCategory::latest()->take(5)->get();
         $blogPage = BlogPage::where('is_active', true)->first();
 
         $recentPosts = Blog::latest()->take(3)->get();
 
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('author', 'like', '%' . $request->search . '%');
+        }
+
+        $blogs = $query->with(['blogQuote', 'blogTags', 'blogComments'])
+            ->latest()
+            ->paginate(5)
+            ->withQueryString();
         // If no service page settings found, create default
         if (!$blogPage) {
             $blogPage = new BlogPage();
             // $blogPage->process_steps = $blogPage->getDefaultProcessSteps();
         }
 
-        return view('frontend.pages.blog', compact('blogs', 'blogCategory', 'blogPage', 'recentPosts'));
+        return view('frontend.pages.blog', compact('blogs', 'blogCategories', 'blogPage', 'recentPosts'));
     }
 
     public function show($id)

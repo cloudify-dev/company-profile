@@ -27,6 +27,7 @@
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
+                    <th>Image</th>
                     <th>Title</th>
                     <th>Description</th>
                     <th>Tag</th>
@@ -38,7 +39,7 @@
             <tbody>
                 @forelse($blogs as $blog)
                 <tr>
-                    <!-- <td>{{$blog}}</td> -->
+                    <td><img src="{{ asset('storage/' . $blog->image) }}" class="avatar avatar-sm me-3"></td>
                     <td>{{ $blog->title }}</td>
                     <td>{{ Str::limit($blog->description, 50) }}</td>
                     <td> @if($blog->blogTags->isNotEmpty())
