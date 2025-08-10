@@ -53,7 +53,7 @@
         <div class="card-body p-0">
             <!-- Desktop Table -->
             <div class="table-responsive d-none d-lg-block mx-4">
-                <table class="table table-hover align-middle mb-0" id="faqTable">
+                <table class="table table-hover align-middle mb-0" id="contactSettingTable">
                     <thead>
                         <tr>
                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" width="50">Title</th>
@@ -93,7 +93,7 @@
                                     <div class="d-flex justify-content-center gap-1">
                                         <a href="{{ route('admin.contact-settings.edit', $setting) }}" 
                                            class="btn btn-link text-dark p-2 mb-0" 
-                                           title="Edit FAQ">
+                                           title="Edit Contact Setting">
                                             <i class="fas fa-edit text-secondary"></i>
                                         </a>
                                         <form action="{{ route('admin.contact-settings.destroy', $setting) }}" 
@@ -104,7 +104,7 @@
                                             @method('DELETE')
                                             <button type="submit" 
                                                     class="btn btn-link text-danger p-2 mb-0" 
-                                                    title="Delete FAQ">
+                                                    title="Delete Contact Setting">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
@@ -120,17 +120,17 @@
                                             <i class="fas fa-question text-muted fa-2x"></i>
                                         </div>
                                         <div>
-                                            <h6 class="mb-1">No FAQ Found</h6>
+                                            <h6 class="mb-1">No Contact Setting Found</h6>
                                             <p class="text-muted mb-0 small">
                                                 @if(request('search') || request('category') || request('status'))
-                                                    No FAQ match your search criteria.
+                                                    No Contact Setting match your search criteria.
                                                 @else
-                                                    Start by adding your first FAQ.
+                                                    Start by adding your first Contact Setting.
                                                 @endif
                                             </p>
                                             @if(!request('search') && !request('category') && !request('status'))
-                                                <a href="{{ route('admin.faq.create') }}" class="btn btn-primary btn-sm mt-2">
-                                                    <i class="fas fa-plus me-1"></i> Add FAQ
+                                                <a href="{{ route('admin.contact-settings.create') }}" class="btn btn-primary btn-sm mt-2">
+                                                    <i class="fas fa-plus me-1"></i> Add Contact Setting
                                                 </a>
                                             @endif
                                         </div>
@@ -166,7 +166,7 @@
 
                     <!-- Pagination Links -->
                     @if($contactSettings->hasPages())
-                        <nav aria-label="FAQ pagination">
+                        <nav aria-label="Contact Setting pagination">
                             {{ $contactSettings->links() }}
                         </nav>
                     @endif
